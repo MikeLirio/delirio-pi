@@ -124,6 +124,10 @@ $ chage -M999 ahortigu
 $ chage -M999 delirio
 ```
 
+### NESPi 4 Case Configuration
+
+https://github.com/RetroFlag/retroflag-picase
+
 ## Project Configuration
 
 https://www.raspberrypi.org/documentation/configuration/security.md
