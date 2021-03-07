@@ -94,7 +94,7 @@ It will appear like a screen with menus. The steps to follow are describe on the
 
 ![img](README.assets/boot-raspberry-pi4-22.png)
 
-At this point, the Raspberry 
+At this point, the Raspberry Pi is configured.
 
 ### Ubuntu Installation
 
