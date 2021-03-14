@@ -2,7 +2,7 @@ This README has been written with [Typora](https://typora.io/) software.
 
 [TOC]
 
-# [Delirio-Pi](https://github.com/MikeLirio/flower-pi)
+# [Delirio-Pi](https://github.com/MikeLirio/delirio-pi)
 
 Documentation and configuration of our Raspberry Pi.
 
@@ -130,25 +130,87 @@ https://github.com/RetroFlag/retroflag-picase
 
 ## Project Configuration
 
-https://www.raspberrypi.org/documentation/configuration/security.md
+### Important Pending TODO list
+
+* https://www.raspberrypi.org/documentation/configuration/security.md
 
 ### DevOps Side
 
-[SonarQueue](https://hub.docker.com/_/sonarqube) 
+#### Docker
 
-https://askubuntu.com/questions/1288835/how-to-install-docker-on-ubuntu-20-10
+We will be using this repository as a base of our environment. All the docker images used will be described below.
 
-https://docs.docker.com/engine/install/ubuntu/
+The `docker-compose.yml` file is located on `delirio-pi\docker\devops-environment\docker-compose.yml`.
 
-docker:
-
-​	arch arm64 - checked with `uname -m`
+The three of development for docker images is:
 
 ```
-echo \
-  "deb [arch=arm64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
++ repository root path
+|
++---- docker
+	|
+	+---- environment
+		|
+		+---- develop
+        	|
+        	+---- backend
+        	+---- frontend
+        	----- docker-compose.yml
+        +---- devops
+        	|
+        	+---- jenkins
+        	+---- nexus
+        	+---- sonar
+        	----- docker-compose.yml
 ```
+
+#### Jenkins
+
+We will build a docker image of [Jenkins](https://www.jenkins.io/) software as nowadays there is not  one available for Raspberry Pi architecture.
+
+The **main branch** of development of [Jenkins](https://www.jenkins.io/) images is `feature/docker_jenkins`.
+
+The **tags** will be saved with the structure of `docker\jenkins\{number version}` for now.
+
+The **path to the Dockerfile** is `delirio-pi\docker\environment\devops\jenkins\Dockerfile`.
+
+#### Sonar queue
+
+The **main branch** of development of [Sonar](https://www.sonarqube.org/) is `feature/docker_sonar`.
+
+The **tags** will be saved with the structure of `docker\sonar\{number version}` for now.
+
+The **path to the Dockerfile** is `delirio-pi\docker\environment\devops\sonar\Dockerfile`.
+
+#### Nexus 3
+
+The **main branch** of development of [Nexus](https://www.sonatype.com/nexus/repository-oss-download) is `feature/docker_nexus`.
+
+The **tags** will be saved with the structure of `docker\nexus\{number version}` for now.
+
+The **path to the Dockerfile** is `delirio-pi\docker\environment\devops\nexus\Dockerfile`.
+
+#### Nginx
+
+The **main branch** of development of [Nexus](https://www.sonatype.com/nexus/repository-oss-download) is `feature/docker_nginx`.
+
+The **tags** will be saved with the structure of `docker\nginx\{number version}` for now.
+
+#### Develop
+
+To do the development more easier, we will develop docker images with all the need it configuration to make sure that the environment where you are developing is the most equal to production as possible.
+
+The **main branch** of development for this configurations will be  is `feature/docker_develop`.
+
+The **tags** will be saved with the structure of `docker\develop\{number version}` for now.
+
+##### Frontend
+
+The frontend will be developed in other repository, [react-delirio-pi](https://github.com/MikeLirio/react-delirio-pi).
+
+##### Backend
+
+The backend is still on pending what to do.
 
 ## Guides to Follow and information
 

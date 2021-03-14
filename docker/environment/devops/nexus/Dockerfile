@@ -1,0 +1,1 @@
+# Future Dockerfile for the frontend development

@@ -1,0 +1,31 @@
+version: '3.9'
+
+services:
+  webserver:
+    # My Computer
+    # image: 'nginx:stable-alpine'
+    # Raspberry Pi
+    image: 'arm64v8/nginx:latest'
+    container_name: nginx
+    ports:
+      - "80:80"   # HTTP
+      - "443:443" # HTTPS
+    environment: 
+      - NGINX_HOST=localhost
+      - NGINX_PORT=80
+    restart:
+      always
+
+  # WIP
+  #front:
+  #  image:
+
+  # WIP
+  #back:
+  #  image:
+
+volumes:
+  nginx_configuration:
+
+networks:
+  app:
