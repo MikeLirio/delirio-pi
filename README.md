@@ -134,6 +134,29 @@ https://github.com/RetroFlag/retroflag-picase
 
 * https://www.raspberrypi.org/documentation/configuration/security.md
 
+### Nespi4Case
+
+For the case configuration, we have to files on folder `/scripts/case`
+
+* `nespi4case.rpi.gpio.py`: Contains the script with all the functionalities and control of the button and led of the Nespi4Case case.
+* `nespi4case.service`: This is the service controlled by **systemctl** to execute the script each time the Raspberry Pi is on.
+
+The script `nespi4case.rpi.gpio.py` will be placed on the path `/opt/delirio`, meanwhile the service has to be placed on `/etc/systemd/system/`.
+
+To enable the new daemon, 
+
+```shell
+# Reload systemd manager configuration. This will rerun all generators (see systemd.generator(7)), reload
+# all unit files, and recreate the entire dependency tree. While the daemon is being reloaded, all sockets
+# systemd listens on behalf of user configuration will stay accessible.
+$ sudo systemctl daemon-reload
+# Adding your service
+$ sudo systemctl disable/enable nespi4case.service
+$ sudo systemctl start nespi4case.service
+# To check if is being added
+$ systemctl list-unit-files
+```
+
 ### DevOps Side
 
 #### Docker
