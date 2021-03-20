@@ -78,7 +78,7 @@ try:
 
             if time_to_shutdown <= time_holding:
                 print("The shutdown process has begun.")
-                # os.system("sudo reboot")
+                os.system("sudo reboot")
             else:
                 print("Shutdown aborted.")
 
