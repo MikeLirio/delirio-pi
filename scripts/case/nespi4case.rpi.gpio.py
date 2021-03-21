@@ -86,6 +86,7 @@ try:
                 print("Shutdown aborted.")
 
     def testingButton():
+        print("Hello there!")
         while True:
             if GPIO.input(powerPin):
                 print('powerPin was HIGH')
