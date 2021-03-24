@@ -47,5 +47,6 @@ try:
 
         GPIO.cleanup()
 
-except RuntimeError:
+except RuntimeError as error:
     print("Error importing RPi.GPIO! \n This is probably because you need superuser privileges. \n You can achieve this by using 'sudo' to run your script")
+    print(error)

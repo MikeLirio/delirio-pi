@@ -1,18 +1,28 @@
 try:
     import RPi.GPIO as GPIO
+    import os
 
-    def button_callback(channel):
-        print("Button was pushed!")
+    # Pins of the Raspberry Pi
+    shutdownPin = 5
 
-    GPIO.setmode(GPIO.BOARD) # Use physical pin numbering
+    def button_shutdown(channel):
+        print("Shutting down")
+        os.system("bash /opt/delirio/case/safe.close.sh")
+        #os.system("sudo shutdown -h now")
 
-    GPIO.setup(10, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Set pin 10 to be an input pin and set initial value to be pulled low (off)
-
-    GPIO.add_event_detect(10,GPIO.RISING,callback=button_callback) # Setup event on pin 10 rising edge
+    # Use physical pin numbering
+    GPIO.setmode(GPIO.BOARD) 
+    # Set pin 5 to be an input pin and set initial value to be pulled low (off)
+    GPIO.setup(shutdownPin, GPIO.IN, pull_up_down=GPIO.PUD_UP) 
+    # Setup event on pin 5 rising edge
+    GPIO.wait_for_edge(shutdownPin,GPIO.FALLING) 
     
-    message = input("Press enter to quit\n\n") # Run until someone presses enter
-
     GPIO.cleanup() # Clean up
 
-except RuntimeError:
+    print("Shutting down")
+    os.system("bash /opt/delirio/case/safe.close.sh")
+    #os.system("sudo shutdown -h now")
+
+except RuntimeError as error:
     print("Error importing RPi.GPIO! \n This is probably because you need superuser privileges. \n You can achieve this by using 'sudo' to run your script")
+    print(error)
