@@ -6,7 +6,7 @@ Wants=network-online.target
 [Service]
 Type=simple
 RemainAfterExit=true
-ExecStart=/usr/bin/python3 /opt/delirio/espi4case.shutdown.gpio.py
+ExecStart=/usr/bin/python3 /opt/delirio/case/nespi4case.shutdown.gpio.py
 
 [Install]
 WantedBy=multi-user.target
