@@ -33,7 +33,7 @@ try:
             if time_to_restart <= time_holding:
                 print("Restarting")
                 GPIO.output(ledPin, GPIO.LOW)
-                os.system("bash /safe.close.sh")
+                os.system("bash /opt/delirio/case/safe.close.sh")
                 os.system("sudo reboot")
             else:
                 print("Restarting aborted.")
