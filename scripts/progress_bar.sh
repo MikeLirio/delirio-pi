@@ -4,7 +4,7 @@
 # DESCRIPTION #################################################################################
 ###############################################################################################
 #                                                                                             #
-#   Version 0.1                                                                               #
+#   Version 1.0                                                                               #
 #                                                                                             #
 #   Progress bar used by any process.                                                         #
 #                                                                                             #
@@ -15,10 +15,10 @@
 #       progress_bar_demo   -  Demo of a progress bar with 30 60 and 100 values.              #
 #                                                                                             #
 ###############################################################################################
-# IMPORTED SCRIPTS ############################################################################
+# REQUIRED SCRIPTS ############################################################################
 ###############################################################################################
 
-. ./colors.sh        # Variables with the colors for the terminal.
+# . ./colors.sh        # Variables with the colors for the terminal.
 
 ###############################################################################################
 # VARIABLES ###################################################################################
@@ -31,27 +31,21 @@ PB_BAR=""       # Variable with the characters of the bar.
 # FUNCTIONS ###################################################################################
 ###############################################################################################
 
-#echo -ne '#   (0%)\r'
-#sleep 1
-#echo -ne '############   (30%)\r'
-#sleep 1
-#echo -ne '#################################   (60%)\r'
-#sleep 1
-#echo -ne '#############################################################   (80%)\r'
-#sleep 1
-#echo -ne '################################################################################   (100%)\r'
-#echo -ne '\n'
-
 function progress_bar () {
     if [ $# -gt 1 ]; then # If parameters no equal 1
 		echo -e "${GRE}#::progress_bar.sh::#${RED} Incorrect number of parameters passed.${NC}"
 	else
-        PB_PROGRESS=$(($PB_PROGRESS + $1))
-        if [ $PB_PROGRESS -gt 100 ]
-        then
-            PB_PROGRESS=100
-        fi
-        echo -ne "${CYA}|${GRE} ${PB_BAR} ${CYA}|${BLU} ${PB_PROGRESS}% ${CYA}|${NC}\r"
+        for i in `seq 1 $1`
+        do
+            PB_PROGRESS=$(($PB_PROGRESS + 1))
+            PB_BAR="$PB_BAR#"
+            if [ $PB_PROGRESS -gt 100 ]
+            then
+                break
+            fi
+            sleep .01
+            echo -ne "${CYA}|${GRE} ${PB_BAR} ${CYA}|${BLU} ${PB_PROGRESS}% ${CYA}|${NC}\r"
+        done
 	fi
 }
 
@@ -62,7 +56,7 @@ function progress_bar_end () {
 function progress_bar_start () {
     PB_PROGRESS=0
     PB_BAR=""
-    progress_bar 0
+    echo -ne "${CYA}|${GRE} ${PB_BAR} ${CYA}|${BLU} ${PB_PROGRESS}% ${CYA}|${NC}\r"
 }
 
 function progress_bar_demo() {
@@ -77,4 +71,5 @@ function progress_bar_demo() {
     progress_bar_end
 }
 
-progress_bar_demo
+# For debug purposes.
+# progress_bar_demo
