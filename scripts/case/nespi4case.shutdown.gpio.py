@@ -13,10 +13,10 @@ try:
         GPIO.setup(shutdownPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) 
 
     def shutdownButton():
-        GPIO.wait_for_edge(shutdownPin, GPIO.RAISING)
+        GPIO.wait_for_edge(shutdownPin, GPIO.RISING)
         print("Shutting down")
         os.system("bash /opt/delirio/case/safe.close.sh")
-        #os.system("sudo shutdown -h now")
+        os.system("sudo shutdown -p now")
 
     if __name__ == "__main__":
         init()
