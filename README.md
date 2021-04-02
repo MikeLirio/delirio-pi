@@ -124,15 +124,74 @@ $ chage -M999 ahortigu
 $ chage -M999 delirio
 ```
 
-### NESPi 4 Case Configuration
-
-https://github.com/RetroFlag/retroflag-picase
-
 ## Project Configuration
 
 ### Important Pending TODO list
 
 * https://www.raspberrypi.org/documentation/configuration/security.md
+
+### Shell Scripts
+
+The folder `./scripts` contains all Shell Scripts use along the **Raspberry Pi**. 
+
+The scrips contained are:
+
+* `./scripts/colors.sh`: Contains the declaration of constants than can be use on **echo**'s to print the messages with colors.
+* `./scripts/progress_bar.sh`: Shell script that print on terminal the percentage of progress of any script.
+  * It requires `./scripts/colors.sh`.
+  * How to use it?
+    * **progress_bar_start** - Initialize and start the bar with a progress of Zero.
+    * **progress_bar *$var***  - Add the number give it as a parameter to the bar. 
+    * **progress_bar_end**  - Complete the bar with a value of 100.
+    * **progress_bar_demo**  - Demo of a progress bar with 30 60 and 100 values.
+* `./scripts/case`: Folder that contains all the scripts used for the case [Nespi 4 Case](#Nespi 4 Case). There will be explained on the case section.
+
+### Nespi 4 Case
+
+Initially, we had the idea of using the own script that the company of the case share for free on this [github repository](https://github.com/RetroFlag/retroflag-picase). But they didn't work as expected, so we create our own scripts.
+
+Those scrips are located on  `./scripts/case` :
+
+* Set Up:
+
+  * `./scripts/case/safe.close.sh`: Script executed before any reboot or shutting down. It controls the correct shutdown of Docker or any behaviour that have to be perform a safety shutdown of the machine.
+  * `./scripts/case/setup.sh`: Script that set the script & service files to control the buttons of the Raspberry Pi.
+    * Flags:
+      * **-r** : reset; set the files for the reset button.
+      * **-s** : shutdown; set the files for the shutdown button.
+      * **-c** : safe-close; set the safe close script.
+      * **-h** : help; print in console this comments.
+      * **none** : set all the files.                            
+
+* **Restart** button:
+
+  * `./scripts/case/nespi4case.restart.gpio.py`: Python script that controls the reset button. Each time you press the button, the light will start to blink. To achieve the reboot, you will have to hold it during 3 second.
+    **Before** reboot, this script will executes the script `./scripts/case/safe.close.sh`.
+  * `./scripts/case/nespi4case.restart.service`: Daemon controlled by **systemctl**. Makes that the previous script is executed on the background.
+
+* **Shutdown** button:
+
+  * `./scripts/case/nespi4case.shutdown.gpio.py`: Python script that controls the shutdown button.  Now it has an issue that when you turn off the Raspberry Pi, the fan is still working. Is an **issue** pending to fix.
+
+    **Before** reboot, this script will executes the script `./scripts/case/safe.close.sh`.
+
+  * `./scripts/case/nespi4case.shutdown.service`: Daemon controlled by **systemctl**. Makes that the previous script is executed on the background.
+
+The scripts `nespi4case.restart.gpio.py` &  will be placed on the path `/opt/delirio`, meanwhile the `nespi4case.restart.service` & `nespi4case.shutdown.service` service files have to be placed on `/etc/systemd/system/`.
+
+To enable the new daemon **manually**: 
+
+```shell
+# Reload systemd manager configuration. This will rerun all generators (see systemd.generator(7)), reload
+# all unit files, and recreate the entire dependency tree. While the daemon is being reloaded, all sockets
+# systemd listens on behalf of user configuration will stay accessible.
+$ sudo systemctl daemon-reload
+# Adding your service
+$ sudo systemctl disable/enable nespi4case.service
+$ sudo systemctl start nespi4case.service
+# To check if is being added
+$ systemctl list-unit-files
+```
 
 ### DevOps Side
 
@@ -146,6 +205,8 @@ The three of development for docker images is:
 
 ```
 + repository root path
+|
++---- scripts
 |
 +---- docker
 	|
