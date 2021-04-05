@@ -129,12 +129,12 @@ function go() {
             cd $BASE_PATH_ANA
         ;;
         'scripts')
-            echo -e "${GRE}#::#.bash_profile#::#${YEL} cd /opt/delirio/scripts ${NC}"
-            cd /opt/delirio/scripts
+            echo -e "${GRE}#::#.bash_profile#::#${YEL} cd $BASE_PATH_SCRIPTS ${NC}"
+            cd $BASE_PATH_SCRIPTS
         ;;
         'github')
-            echo -e "${GRE}#::#.bash_profile#::#${YEL} cd /github ${NC}"
-            cd /github
+            echo -e "${GRE}#::#.bash_profile#::#${YEL} cd $GITHUB_PATH ${NC}"
+            cd $GITHUB_PATH
         ;;
         esac
     else
