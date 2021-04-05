@@ -39,12 +39,10 @@ export GITHUB_DELIRIO_BASH_PROFILE=$GITHUB_DELIRIO/scripts/profiles/.bash_profil
 ###############################################################################################
 
 function help() {
-    echo -e "${GRE} #::#${YEL}.bash_profil${GRE}#::##################################################################################${NC}"
+    echo -e "${GRE} #::#${YEL}.bash_profile${GRE}#::# ${YEL}Version ${BYEL}$VERSION ${YEL}of user ${BYEL}$(id -un) ${NC}"
     echo -e "${GRE} ######################################################################################################${NC}"
     echo -e "${GRE} ## ${YEL}PROFILE DOCUMENTATION ${GRE}#############################################################################${NC}"
     echo -e "${GRE} ######################################################################################################${NC}"
-    echo -e "${GRE} #                                                                                                    ${GRE}#${NC}"
-    echo -e "${GRE} # ${YEL}Version ${BYEL}$VERSION ${YEL}of user ${BYEL}$(id -un)                                                                 ${GRE}#${NC}" 
     echo -e "${GRE} #                                                                                                    ${GRE}#${NC}"
     echo -e "${GRE} # ${YEL}The .bash_profiles contain the next functions:                                                     ${GRE}#${NC}"
     echo -e "${GRE} #                                                                                                    ${GRE}#${NC}"
@@ -63,10 +61,10 @@ function help() {
     echo -e "${GRE} #                           ${RED}| ${YEL}environment variable DEBUG.                                            ${GRE}#${NC}"
     echo -e "${GRE} #                           ${RED}| ${YEL}You can provide as a parameter a string used as a pattern to           ${GRE}#${NC}"
     echo -e "${GRE} #                           ${RED}| ${YEL}print logs on the terminal.                                            ${GRE}#${NC}"
-    echo -e "${GRE} #                           ${RED}| ${YEL}The default value is "".                                               ${GRE}#${NC}"
+    echo -e "${GRE} #                           ${RED}| ${YEL}The default value is \"\".                                               ${GRE}#${NC}"
     echo -e "${GRE} #                                                                                                    ${GRE}#${NC}"
     echo -e "${GRE} #       ${BLU}debugOff            ${RED}| ${YEL}Deactivate the debug giving to the environmenta variable DEBUG         ${GRE}#${NC}"
-    echo -e "${GRE} #                           ${RED}| ${YEL}a value of "".                                                         ${GRE}#${NC}"
+    echo -e "${GRE} #                           ${RED}| ${YEL}a value of \"\".                                                         ${GRE}#${NC}"
     echo -e "${GRE} #                                                                                                    ${GRE}#${NC}"
     echo -e "${GRE} #       ${BLU}reloadProfile       ${RED}| ${YEL}Reload the .bash_profile located on the user folder.                   ${GRE}#${NC}"
     echo -e "${GRE} #                                                                                                    ${GRE}#${NC}"
@@ -89,12 +87,10 @@ function ana() {
 }
 
 function printenvpi() {
-    echo -e "${GRE} #::#${YEL}.bash_profil${GRE}#::##################################################################################${NC}"
+    echo -e "${GRE} #::#${YEL}.bash_profile${GRE}#::# ${YEL}Version ${BYEL}$VERSION ${YEL}of user ${BYEL}$(id -un)${NC}"
     echo -e "${GRE} ######################################################################################################${NC}"
     echo -e "${GRE} ## ${YEL}BASH PROFILE ENVIRONMENT VARIABLE ${GRE}#################################################################${NC}"
     echo -e "${GRE} ######################################################################################################${NC}"
-    echo -e "                                                                   ${NC}"
-    echo -e " ${YEL}Version ${BYEL}$VERSION ${YEL}of user ${BYEL}$(id -un)      ${NC}"
     echo -e "                                                                   ${NC}"
     echo -e " ${YEL}The .bash_profiles contain the next environment variables:  ${NC}"
     echo -e "                                                                   ${NC}"
@@ -118,7 +114,7 @@ function go() {
     if [ $# -eq 0 ]; then 
         echo -e "${GRE}#::#.bash_profile#::#${YEL} go where?${NC}"
         goHelp
-    else if [ $# -eq 1 ]; then 
+    elif [ $# -eq 1 ]; then 
         case "$1" in
         'admin')
             echo -e "${GRE}#::#.bash_profile#::#${YEL} cd $BASE_PATH_ADMIN ${NC}"
@@ -141,7 +137,8 @@ function go() {
             cd /github
         ;;
         esac
-    else goHelp
+    else
+        goHelp
     fi
 }
 
