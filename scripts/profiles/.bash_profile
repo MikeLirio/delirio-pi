@@ -181,7 +181,7 @@ function importProfile() {
     cd $GITHUB_DELIRIO
     git pull
     echo -e "${GRE}#::#.bash_profile#::#${YEL} Copying the profile for user $actualUser ${NC}"
-    cp $GITHUB_DELIRIO_BASH_PROFILE /home/$actualUser/.bash_profile
+    sudo cp $GITHUB_DELIRIO_BASH_PROFILE /home/$actualUser/.bash_profile
 
     echo -e "${GRE}#::#.bash_profile#::#${YEL} Reloading the profile for user $actualUser... ${NC}"
     reloadProfile
@@ -199,9 +199,9 @@ function importProfileAll() {
     cd $GITHUB_DELIRIO
     git pull
     echo -e "${GRE}#::#.bash_profile#::#${YEL} Copying the profiles for users ${NC}"
-    cp $GITHUB_DELIRIO_BASH_PROFILE /home/lirio/.bash_profile
-    cp $GITHUB_DELIRIO_BASH_PROFILE /home/delirio/.bash_profile
-    cp $GITHUB_DELIRIO_BASH_PROFILE /home/ahortigu/.bash_profile
+    sudo cp $GITHUB_DELIRIO_BASH_PROFILE /home/lirio/.bash_profile
+    sudo cp $GITHUB_DELIRIO_BASH_PROFILE /home/delirio/.bash_profile
+    sudo cp $GITHUB_DELIRIO_BASH_PROFILE /home/ahortigu/.bash_profile
 
     echo -e "${GRE}#::#.bash_profile#::#${YEL} Reloading the profile for user $actualUser... ${NC}"
     reloadProfile
