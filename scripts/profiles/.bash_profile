@@ -18,13 +18,14 @@
 
 export VERSION=1.0
 
-export BASE_PATH_SCRIPTS=/opt/delirio/scripts
+export BASE_PATH_SCRIPTS=/opt/delirio
 export BASE_PATH_ANA=/home/ahortigu
 export BASE_PATH_LIRIO=/home/lirio
 export BASE_PATH_ADMIN=/home/delirio
 
 export GITHUB_PATH=/github
 export GITHUB_DELIRIO=$GITHUB_PATH/delirio-pi
+export GITHUB_DELIRIO_BASH_PROFILE=$GITHUB_DELIRIO/scripts/profiles/.bash_profile
 
 ###############################################################################################
 ## IMPORTED SCRIPTS ###########################################################################
@@ -40,7 +41,7 @@ export GITHUB_DELIRIO=$GITHUB_PATH/delirio-pi
 function help() {
     echo -e "${GRE} #::#${YEL}.bash_profil${GRE}#::##################################################################################${NC}"
     echo -e "${GRE} ######################################################################################################${NC}"
-    echo -e "${GRE} ## ${YEL}PROFILE DOCUMENTATION #############################################################################${NC}"
+    echo -e "${GRE} ## ${YEL}PROFILE DOCUMENTATION ${GRE}#############################################################################${NC}"
     echo -e "${GRE} ######################################################################################################${NC}"
     echo -e "${GRE} #                                                                                                    ${GRE}#${NC}"
     echo -e "${GRE} # ${YEL}Version ${BYEL}$VERSION ${YEL}of user ${BYEL}$(id -un)                                                                 ${GRE}#${NC}" 
@@ -74,6 +75,8 @@ function help() {
     echo -e "${GRE} #                                                                                                    ${GRE}#${NC}"
     echo -e "${GRE} #       ${BLU}importProfileAll    ${RED}| ${YEL}Same as importProfile but for all the users of the Raspberry Pi.       ${GRE}#${NC}"
     echo -e "${GRE} #                                                                                                    ${GRE}#${NC}"
+    echo -e "${GRE} #       ${BLU}printenvpi          ${RED}| ${YEL}Print the environment variables declared on the .bash_profile.         ${GRE}#${NC}"
+    echo -e "${GRE} #                                                                                                    ${GRE}#${NC}"
     echo -e "${GRE} ######################################################################################################${NC}"
 }
 
@@ -85,51 +88,60 @@ function ana() {
     help
 }
 
+function printenvpi() {
+    echo -e "${GRE} #::#${YEL}.bash_profil${GRE}#::##################################################################################${NC}"
+    echo -e "${GRE} ######################################################################################################${NC}"
+    echo -e "${GRE} ## ${YEL}BASH PROFILE ENVIRONMENT VARIABLE ${GRE}#################################################################${NC}"
+    echo -e "${GRE} ######################################################################################################${NC}"
+    echo -e "                                                                   ${NC}"
+    echo -e " ${YEL}Version ${BYEL}$VERSION ${YEL}of user ${BYEL}$(id -un)      ${NC}"
+    echo -e "                                                                   ${NC}"
+    echo -e " ${YEL}The .bash_profiles contain the next environment variables:  ${NC}"
+    echo -e "                                                                   ${NC}"
+    echo -e "     ${BLU}VERSION                        ${RED}| ${YEL} $VERSION                             ${NC}"
+    echo -e "                                                                   ${NC}"
+    echo -e "     ${BLU}BASE_PATH_SCRIPTS              ${RED}| ${YEL} $BASE_PATH_SCRIPTS                             ${NC}"
+    echo -e "     ${BLU}BASE_PATH_ANA                  ${RED}| ${YEL} $BASE_PATH_ANA                             ${NC}"
+    echo -e "     ${BLU}BASE_PATH_LIRIO                ${RED}| ${YEL} $BASE_PATH_LIRIO                             ${NC}"
+    echo -e "     ${BLU}BASE_PATH_ADMIN                ${RED}| ${YEL} $BASE_PATH_ADMIN                             ${NC}"
+    echo -e "                                                                   ${NC}"
+    echo -e "     ${BLU}DEBUG                          ${RED}| ${YEL} $DEBUG                             ${NC}"
+    echo -e "                                                                   ${NC}"
+    echo -e "     ${BLU}GITHUB_PATH                    ${RED}| ${YEL} $GITHUB_PATH                             ${NC}"
+    echo -e "     ${BLU}GITHUB_DELIRIO                 ${RED}| ${YEL} $GITHUB_DELIRIO                             ${NC}"
+    echo -e "     ${BLU}GITHUB_DELIRIO_BASH_PROFILE    ${RED}| ${YEL} $GITHUB_DELIRIO_BASH_PROFILE                             ${NC}"
+    echo -e "                                                                   ${NC}"
+    echo -e "${GRE} ######################################################################################################${NC}"
+}
+
 function go() {
     if [ $# -eq 0 ]; then 
         echo -e "${GRE}#::#.bash_profile#::#${YEL} go where?${NC}"
         goHelp
     else if [ $# -eq 1 ]; then 
         case "$1" in
-            'admin')
-                echo -e "${GRE}#::#.bash_profile#::#${YEL} cd $BASE_PATH_ADMIN ${NC}"
-                cd $BASE_PATH_ADMIN
-            ;;
-            'lirio')
-                echo -e "${GRE}#::#.bash_profile#::#${YEL} cd $BASE_PATH_LIRIO ${NC}"
-                cd $BASE_PATH_LIRIO
-            ;;
-            'ana')
-                echo -e "${GRE}#::#.bash_profile#::#${YEL} cd $BASE_PATH_ANA ${NC}"
-                cd $BASE_PATH_ANA
-            ;;
-            'scripts')
-                echo -e "${GRE}#::#.bash_profile#::#${YEL} cd /opt/delirio/scripts ${NC}"
-                cd /opt/delirio/scripts
-            ;;
-            'github')
-                echo -e "${GRE}#::#.bash_profile#::#${YEL} cd /github ${NC}"
-                cd /github
-            ;;
+        'admin')
+            echo -e "${GRE}#::#.bash_profile#::#${YEL} cd $BASE_PATH_ADMIN ${NC}"
+            cd $BASE_PATH_ADMIN
+        ;;
+        'lirio')
+            echo -e "${GRE}#::#.bash_profile#::#${YEL} cd $BASE_PATH_LIRIO ${NC}"
+            cd $BASE_PATH_LIRIO
+        ;;
+        'ana')
+            echo -e "${GRE}#::#.bash_profile#::#${YEL} cd $BASE_PATH_ANA ${NC}"
+            cd $BASE_PATH_ANA
+        ;;
+        'scripts')
+            echo -e "${GRE}#::#.bash_profile#::#${YEL} cd /opt/delirio/scripts ${NC}"
+            cd /opt/delirio/scripts
+        ;;
+        'github')
+            echo -e "${GRE}#::#.bash_profile#::#${YEL} cd /github ${NC}"
+            cd /github
+        ;;
         esac
-        #if [[ $1 == "admin" ]]; then
-        #    echo -e "${GRE}#::#.bash_profile#::#${YEL} cd $BASE_PATH_ADMIN ${NC}"
-        #    cd $BASE_PATH_ADMIN
-        #else if [[ $1 == "lirio" ]]; then
-        #    echo -e "${GRE}#::#.bash_profile#::#${YEL} cd $BASE_PATH_LIRIO ${NC}"
-        #    cd $BASE_PATH_LIRIO
-        #else if [[ $1 == "ana" ]]; then
-        #    echo -e "${GRE}#::#.bash_profile#::#${YEL} cd $BASE_PATH_ANA ${NC}"
-        #    cd $BASE_PATH_ANA
-        #else if [[ $1 == "scripts" ]]; then
-        #    echo -e "${GRE}#::#.bash_profile#::#${YEL} cd /opt/delirio/scripts ${NC}"
-        #    cd /opt/delirio/scripts
-        #else if [[ $1 == "github" ]]; then
-        #    echo -e "${GRE}#::#.bash_profile#::#${YEL} cd /github ${NC}"
-        #    cd /github
-        #fi
-    else
-        goHelp
+    else goHelp
     fi
 }
 
@@ -172,7 +184,7 @@ function importProfile() {
     cd $GITHUB_DELIRIO
     git pull
     echo -e "${GRE}#::#.bash_profile#::#${YEL} Copying the profile for user $actualUser ${NC}"
-    cp /home/$actualUser $GITHUB_DELIRIO/scripts/profiles/.bash_profile
+    cp /home/$actualUser $GITHUB_DELIRIO_BASH_PROFILE
 
     echo -e "${GRE}#::#.bash_profile#::#${YEL} Reloading the profile for user $actualUser... ${NC}"
     reloadProfile
@@ -190,9 +202,9 @@ function importProfileAll() {
     cd $GITHUB_DELIRIO
     git pull
     echo -e "${GRE}#::#.bash_profile#::#${YEL} Copying the profiles for users ${NC}"
-    cp /home/lirio $GITHUB_DELIRIO/scripts/profiles/.bash_profile
-    cp /home/delirio $GITHUB_DELIRIO/scripts/profiles/.bash_profile
-    cp /home/ahortigu $GITHUB_DELIRIO/scripts/profiles/.bash_profile
+    cp /home/lirio $GITHUB_DELIRIO_BASH_PROFILE
+    cp /home/delirio $GITHUB_DELIRIO_BASH_PROFILE
+    cp /home/ahortigu $GITHUB_DELIRIO_BASH_PROFILE
 
     echo -e "${GRE}#::#.bash_profile#::#${YEL} Reloading the profile for user $actualUser... ${NC}"
     reloadProfile
