@@ -136,6 +136,8 @@ The folder `./scripts` contains all Shell Scripts use along the **Raspberry Pi**
 
 The scrips contained are:
 
+* `./scripts/profiles/.bash_profile`: File with the functions used by all the users. Some help.
+
 * `./scripts/colors.sh`: Contains the declaration of constants than can be use on **echo**'s to print the messages with colors.
 * `./scripts/progress_bar.sh`: Shell script that print on terminal the percentage of progress of any script.
   * It requires `./scripts/colors.sh`.
