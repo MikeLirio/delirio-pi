@@ -48,7 +48,7 @@ function help() {
     echo -e "${GRE} #                                                                                                    ${GRE}#${NC}"
     echo -e "${GRE} #       ${BLU}help / lirio / ana  ${RED}| ${YEL}Those 3 functions print the documentation.                             ${GRE}#${NC}"
     echo -e "${GRE} #                                                                                                    ${GRE}#${NC}"
-    echo -e "${GRE} #       ${BLU}go {where}          ${RED}| ${YEL}Function that requires a parameter used as an alias of folders.        ${GRE}#${NC}"
+    echo -e "${GRE} #       ${BLU}goto {where}        ${RED}| ${YEL}Function that requires a parameter used as an alias of folders.        ${GRE}#${NC}"
     echo -e "${GRE} #                           ${RED}| ${YEL}admin   - /home/delirio                                                ${GRE}#${NC}"
     echo -e "${GRE} #                           ${RED}| ${YEL}lirio   - /home/lirio                                                  ${GRE}#${NC}"
     echo -e "${GRE} #                           ${RED}| ${YEL}ana     - /home/ahortigu                                               ${GRE}#${NC}"
@@ -110,7 +110,7 @@ function printenvpi() {
     echo -e "${GRE} ######################################################################################################${NC}"
 }
 
-function go() {
+function goto() {
     if [ $# -eq 0 ]; then 
         echo -e "${GRE}#::#.bash_profile#::#${YEL} go where?${NC}"
         goHelp
@@ -142,7 +142,7 @@ function go() {
     fi
 }
 
-function goHelp() {
+function gotoHelp() {
     echo -e "${GRE}#::#.bash_profile#::#${YEL} You can go to....${NC}"
     echo -e "${GRE}#::#.bash_profile#::#${BLU}      admin   - /home/delirio ${NC}"
     echo -e "${GRE}#::#.bash_profile#::#${BLU}      lirio   - /home/lirio ${NC}"
@@ -181,7 +181,7 @@ function importProfile() {
     cd $GITHUB_DELIRIO
     git pull
     echo -e "${GRE}#::#.bash_profile#::#${YEL} Copying the profile for user $actualUser ${NC}"
-    cp /home/$actualUser $GITHUB_DELIRIO_BASH_PROFILE
+    cp $GITHUB_DELIRIO_BASH_PROFILE /home/$actualUser/.bash_profile
 
     echo -e "${GRE}#::#.bash_profile#::#${YEL} Reloading the profile for user $actualUser... ${NC}"
     reloadProfile
@@ -199,9 +199,9 @@ function importProfileAll() {
     cd $GITHUB_DELIRIO
     git pull
     echo -e "${GRE}#::#.bash_profile#::#${YEL} Copying the profiles for users ${NC}"
-    cp /home/lirio $GITHUB_DELIRIO_BASH_PROFILE
-    cp /home/delirio $GITHUB_DELIRIO_BASH_PROFILE
-    cp /home/ahortigu $GITHUB_DELIRIO_BASH_PROFILE
+    cp $GITHUB_DELIRIO_BASH_PROFILE /home/lirio/.bash_profile
+    cp $GITHUB_DELIRIO_BASH_PROFILE /home/delirio/.bash_profile
+    cp $GITHUB_DELIRIO_BASH_PROFILE /home/ahortigu/.bash_profile
 
     echo -e "${GRE}#::#.bash_profile#::#${YEL} Reloading the profile for user $actualUser... ${NC}"
     reloadProfile
