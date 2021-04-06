@@ -12,6 +12,7 @@ RUN mkdir -p /usr/share/man/man1
 
 RUN apt-get update \
     && apt-get install -y \
+    tail \
     unzip \
     default-jre \
     wget \
@@ -31,7 +32,7 @@ RUN apt-get update \
     && apt-get install -y jenkins \
     && rm -rf /var/lib/apt/lists/*
 
-# USER jenkins
+USER jenkins
 
 EXPOSE 8000 50000
 
@@ -47,6 +48,4 @@ ARG http_port=8000
 ARG agent_port=50000
 ARG user=jenkins
 
-
-
-CMD ["bash"]
+CMD service jenkins start && tail -F /var/log/jenkins/jenkins.log
