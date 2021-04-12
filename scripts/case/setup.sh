@@ -19,8 +19,9 @@
 # IMPORTED SCRIPTS ############################################################################
 ###############################################################################################
 
-. ./../colors.sh        # Variables with the colors for the terminal.
-. ./../progress_bar.sh  # Progress bar.
+. $BASE_PATH_SCRIPTS/colors.sh                        # Variables with the colors for the terminal.
+. $BASE_PATH_SCRIPTS/global_environment_variables.sh  # All the environment variables declared along the scripts
+. $BASE_PATH_SCRIPTS/progress_bar.sh                  # Progress bar.
 
 ###############################################################################################
 # VARIABLES ###################################################################################
