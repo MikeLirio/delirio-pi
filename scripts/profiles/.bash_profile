@@ -1,16 +1,16 @@
 #!/bin/bash
 
-
 ###############################################################################################
 ## CHANGE LOG #################################################################################
 ###############################################################################################
 #
-# Actual Version v1.0
+# Actual Version v1.1
+#
+# Change Log v1.1
+#       - Added setup function.
 # 
 # Change Log v1.0
 #       - This bash profile is the template for the users of the Raspberry Pi.
-#       
-#       
 #
 ###############################################################################################
 ## ENVIRONMENT VARIABLE #######################################################################
@@ -18,21 +18,13 @@
 
 export VERSION=1.0
 
-export BASE_PATH_SCRIPTS=/opt/delirio
-export BASE_PATH_ANA=/home/ahortigu
-export BASE_PATH_LIRIO=/home/lirio
-export BASE_PATH_ADMIN=/home/delirio
-
-export GITHUB_PATH=/github
-export GITHUB_DELIRIO=$GITHUB_PATH/delirio-pi
-export GITHUB_DELIRIO_BASH_PROFILE=$GITHUB_DELIRIO/scripts/profiles/.bash_profile
-
 ###############################################################################################
 ## IMPORTED SCRIPTS ###########################################################################
 ###############################################################################################
 
-. $BASE_PATH_SCRIPTS/colors.sh        # Variables with the colors for the terminal.
-. $BASE_PATH_SCRIPTS/progress_bar.sh  # Progress bar.
+. $BASE_PATH_SCRIPTS/colors.sh                        # Variables with the colors for the terminal.
+. $BASE_PATH_SCRIPTS/global_environment_variables.sh  # All the environment variables declared along the scripts
+. $BASE_PATH_SCRIPTS/progress_bar.sh                  # Progress bar.
 
 ###############################################################################################
 ## MY FUNCTIONS ###############################################################################
@@ -75,6 +67,18 @@ function help() {
     echo -e "${GRE} #                                                                                                    ${GRE}#${NC}"
     echo -e "${GRE} #       ${BLU}printenvpi          ${RED}| ${YEL}Print the environment variables declared on the .bash_profile.         ${GRE}#${NC}"
     echo -e "${GRE} #                                                                                                    ${GRE}#${NC}"
+    echo -e "${GRE} #       ${BLU}setup               ${RED}| ${YEL}Loop to help to configure the Raspberry Pi through the                 ${GRE}#${NC}"
+    echo -e "${GRE} #                                 ${RED}| ${YEL}terminal.                                                              ${GRE}#${NC}"
+    echo -e "${GRE} #                                 ${RED}| ${YEL}It use internally the next functions:                                  ${GRE}#${NC}"
+    echo -e "${GRE} #                                 ${RED}| ${BYEL}       setup_scripts      setup_docker     setup_case                  ${GRE}#${NC}"
+    echo -e "${GRE} #                                 ${RED}| ${BYEL}       importProfileAll   importProfile                                ${GRE}#${NC}"
+    echo -e "${GRE} #                                                                                                    ${GRE}#${NC}"
+    echo -e "${GRE} #       ${BLU}setup_scripts       ${RED}| ${YEL}Fetch and pull the repository folder and copy the script files.        ${GRE}#${NC}"
+    echo -e "${GRE} #                                                                                                    ${GRE}#${NC}"
+    echo -e "${GRE} #       ${BLU}setup_docker        ${RED}| ${YEL}Execute the Docker setup script.                                       ${GRE}#${NC}"
+    echo -e "${GRE} #                                                                                                    ${GRE}#${NC}"
+    echo -e "${GRE} #       ${BLU}setup_case          ${RED}| ${YEL}Execute the Case setup script.                                         ${GRE}#${NC}"
+    echo -e "${GRE} #                                                                                                    ${GRE}#${NC}"
     echo -e "${GRE} ######################################################################################################${NC}"
 }
 
@@ -84,30 +88,6 @@ function lirio() {
 
 function ana() {
     help
-}
-
-function printenvpi() {
-    echo -e "${GRE} #::#${YEL}.bash_profile${GRE}#::# ${YEL}Version ${BYEL}$VERSION ${YEL}of user ${BYEL}$(id -un)${NC}"
-    echo -e "${GRE} ######################################################################################################${NC}"
-    echo -e "${GRE} ## ${YEL}BASH PROFILE ENVIRONMENT VARIABLE ${GRE}#################################################################${NC}"
-    echo -e "${GRE} ######################################################################################################${NC}"
-    echo -e "                                                                   ${NC}"
-    echo -e " ${YEL}The .bash_profiles contain the next environment variables:  ${NC}"
-    echo -e "                                                                   ${NC}"
-    echo -e "     ${BLU}VERSION                        ${RED}| ${YEL} $VERSION                             ${NC}"
-    echo -e "                                                                   ${NC}"
-    echo -e "     ${BLU}BASE_PATH_SCRIPTS              ${RED}| ${YEL} $BASE_PATH_SCRIPTS                             ${NC}"
-    echo -e "     ${BLU}BASE_PATH_ANA                  ${RED}| ${YEL} $BASE_PATH_ANA                             ${NC}"
-    echo -e "     ${BLU}BASE_PATH_LIRIO                ${RED}| ${YEL} $BASE_PATH_LIRIO                             ${NC}"
-    echo -e "     ${BLU}BASE_PATH_ADMIN                ${RED}| ${YEL} $BASE_PATH_ADMIN                             ${NC}"
-    echo -e "                                                                   ${NC}"
-    echo -e "     ${BLU}DEBUG                          ${RED}| ${YEL} $DEBUG                             ${NC}"
-    echo -e "                                                                   ${NC}"
-    echo -e "     ${BLU}GITHUB_PATH                    ${RED}| ${YEL} $GITHUB_PATH                             ${NC}"
-    echo -e "     ${BLU}GITHUB_DELIRIO                 ${RED}| ${YEL} $GITHUB_DELIRIO                             ${NC}"
-    echo -e "     ${BLU}GITHUB_DELIRIO_BASH_PROFILE    ${RED}| ${YEL} $GITHUB_DELIRIO_BASH_PROFILE                             ${NC}"
-    echo -e "                                                                   ${NC}"
-    echo -e "${GRE} ######################################################################################################${NC}"
 }
 
 function goto() {
@@ -171,6 +151,52 @@ function debugOff() {
 function reloadProfile() {
     actualUser=$(id -un)
     . /home/$actualUser/.bash_profile
+}
+
+function setup() {
+    actualFolder=$(pwd)
+    actualUser=$(id -un)
+
+    echo -e "${GRE}#::#.bash_profile#::#${YEL} Checking existence of $GITHUB_DELIRIO... ${NC}"
+    if [ ! -d "$GITHUB_DELIRIO" ]; then # Take action if $DIR exists.
+        echo -e "${GRE}#::#.bash_profile#::#${YEL} Cloning  $GITHUB_DELIRIO_URL ${NC}"
+        cd $GITHUB_PATH
+        git clone $GITHUB_DELIRIO_URL
+    fi
+
+    cd $GITHUB_DELIRIO
+    while true; do
+        echo -e "${GRE}#::#.bash_profile#::#${YEL} What do you want to setup? ${NC}"
+        echo -e "${GRE}#::#.bash_profile#::#${BLU}    [1] Copy script files from github.${NC}"
+        echo -e "${GRE}#::#.bash_profile#::#${BLU}    [2] Docker.${NC}"
+        echo -e "${GRE}#::#.bash_profile#::#${BLU}    [3] .bash_profile file for $actualUser user .${NC}"
+        echo -e "${GRE}#::#.bash_profile#::#${BLU}    [4] .bash_profile files for all users.${NC}"
+        echo -e "${GRE}#::#.bash_profile#::#${BLU}    [5] Nespi 4 Case configuration.${NC}"
+        read -p "${GRE}#::#.bash_profile#::#${BBLU} Write the number of the option: ${NC}" option
+        case $option in
+            [1]* ) setup_scripts; break;;
+            [2]* ) setup_docker; break;;
+            [3]* ) importProfile; break;;
+            [4]* ) importProfileAll; break;;
+            [5]* ) setup_case; break;;
+            * ) echo "${GRE}#::#.bash_profile#::#${RED} Please, follow the instructions of above. ${NC}";;
+        esac
+    done
+
+    cd $actualFolder
+    actualFolder=""
+}
+
+function setup_scripts() {
+    echo -e "${GRE}#::#.bash_profile#::#${YEL} Copying scripts from $GITHUB_DELIRIO/scripts .${NC}"
+}
+
+function setup_docker() {
+    echo -e "${GRE}#::#.bash_profile#::#${YEL} Executing Docker setup file ${BYEL}$BASE_PATH_SCRIPTS/scripts/docker/setup.sh${NC}"
+}
+
+function setup_case() {
+    echo -e "${GRE}#::#.bash_profile#::#${YEL} Executing Case setup file ${BYEL}$BASE_PATH_SCRIPTS/scripts/case/setup.sh${NC}"
 }
 
 function importProfile() {
