@@ -162,6 +162,7 @@ function setup() {
         echo -e "${GRE}#::#.bash_profile#::#${YEL} Cloning  $GITHUB_DELIRIO_URL ${NC}"
         cd $GITHUB_PATH
         git clone $GITHUB_DELIRIO_URL
+        git checkout $GITHUB_DELIRIO_BRANCH
     fi
 
     cd $GITHUB_DELIRIO
@@ -172,17 +173,44 @@ function setup() {
         echo -e "${GRE}#::#.bash_profile#::#${BLU}    [3] .bash_profile file for $actualUser user .${NC}"
         echo -e "${GRE}#::#.bash_profile#::#${BLU}    [4] .bash_profile files for all users.${NC}"
         echo -e "${GRE}#::#.bash_profile#::#${BLU}    [5] Nespi 4 Case configuration.${NC}"
+        echo -e "${GRE}#::#.bash_profile#::#${BLU}    [6] Delirio-Pi Github branch to use.${NC}"
         read -p "${GRE}#::#.bash_profile#::#${BBLU} Write the number of the option: ${NC}" option
         case $option in
-            [1]* ) setup_scripts; break;;
-            [2]* ) setup_docker; break;;
-            [3]* ) importProfile; break;;
-            [4]* ) importProfileAll; break;;
-            [5]* ) setup_case; break;;
-            * ) echo "${GRE}#::#.bash_profile#::#${RED} Please, follow the instructions of above. ${NC}";;
+            1 ) setup_scripts; break;;
+            2 ) setup_docker; break;;
+            3 ) importProfile; break;;
+            4 ) importProfileAll; break;;
+            5 ) setup_case; break;;
+            6 ) delirio_github; break;;
+            * ) echo -e "${GRE}#::#.bash_profile#::#${RED} Please, follow the instructions of above. ${NC}";;
         esac
     done
 
+    cd $actualFolder
+    actualFolder=""
+}
+
+function delirio_github() {
+    actualFolder=$(pwd)
+
+    read -p "${GRE}#::#.bash_profile#::#${BBLU} Write the name of the branch to use ${NC}" branch
+    cd $GITHUB_DELIRIO
+
+    echo -e "${GRE}#::#.bash_profile#::#${YEL} Fetching repository...${NC}"
+    git fetch
+    echo -e "${GRE}#::#.bash_profile#::#${YEL} Checking exitence of branch $branch...${NC}"
+    if [ `git branch --list $branch` ] ; then
+        echo -e "${GRE}#::#.bash_profile#::#${YEL} Setting the branch $branch on GITHUB_DELIRIO_BRANCH environment variable.${NC}"
+        export GITHUB_DELIRIO_BRANCH=$branch
+        printenvpi | grep GITHUB_DELIRIO_BRANCH
+        echo -e "${GRE}#::#.bash_profile#::#${YEL} Checking to branch $branch ${NC}"
+        git checkout $GITHUB_DELIRIO_BRANCH
+        echo -e "${GRE}#::#.bash_profile#::#${YEL} Pulling branch $branch ${NC}"
+        git pull
+    else 
+        echo -e "${GRE}#::#.bash_profile#::#${YEL} The branch $branch do not exits.${NC}"
+    fi
+    
     cd $actualFolder
     actualFolder=""
 }
@@ -205,6 +233,8 @@ function importProfile() {
 
     echo -e "${GRE}#::#.bash_profile#::#${YEL} Git pull of $GITHUB_DELIRIO... ${NC}"
     cd $GITHUB_DELIRIO
+    git fetch
+    git checkout $GITHUB_DELIRIO_BRANCH
     git pull
     echo -e "${GRE}#::#.bash_profile#::#${YEL} Copying the profile for user $actualUser ${NC}"
     sudo cp $GITHUB_DELIRIO_BASH_PROFILE /home/$actualUser/.bash_profile
