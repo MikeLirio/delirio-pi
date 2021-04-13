@@ -16,7 +16,7 @@
 ## ENVIRONMENT VARIABLE #######################################################################
 ###############################################################################################
 
-export VERSION=1.0
+export VERSION=1.1
 
 ###############################################################################################
 ## IMPORTED SCRIPTS ###########################################################################
@@ -69,9 +69,9 @@ function help() {
     echo -e "${GRE} #                                                                                                    ${GRE}#${NC}"
     echo -e "${GRE} #       ${BLU}setup               ${RED}| ${YEL}Loop to help to configure the Raspberry Pi through the                 ${GRE}#${NC}"
     echo -e "${GRE} #                                 ${RED}| ${YEL}terminal.                                                              ${GRE}#${NC}"
-    echo -e "${GRE} #                                 ${RED}| ${YEL}It use internally the next functions:                                  ${GRE}#${NC}"
-    echo -e "${GRE} #                                 ${RED}| ${BYEL}       setup_scripts      setup_docker     setup_case                  ${GRE}#${NC}"
-    echo -e "${GRE} #                                 ${RED}| ${BYEL}       importProfileAll   importProfile                                ${GRE}#${NC}"
+    echo -e "${GRE} #                                 ${RED}| ${YEL}It use internally the next functions:                            ${GRE}#${NC}"
+    echo -e "${GRE} #                                 ${RED}| ${BYEL}       setup_scripts      setup_docker     setup_case            ${GRE}#${NC}"
+    echo -e "${GRE} #                                 ${RED}| ${BYEL}       importProfileAll   importProfile                          ${GRE}#${NC}"
     echo -e "${GRE} #                                                                                                    ${GRE}#${NC}"
     echo -e "${GRE} #       ${BLU}setup_scripts       ${RED}| ${YEL}Fetch and pull the repository folder and copy the script files.        ${GRE}#${NC}"
     echo -e "${GRE} #                                                                                                    ${GRE}#${NC}"
@@ -168,6 +168,7 @@ function setup() {
     cd $GITHUB_DELIRIO
     while true; do
         echo -e "${GRE}#::#.bash_profile#::#${YEL} What do you want to setup? ${NC}"
+        echo -e "${GRE}#::#.bash_profile#::#${BLU}    [0] First setup.${NC}"
         echo -e "${GRE}#::#.bash_profile#::#${BLU}    [1] Copy script files from github.${NC}"
         echo -e "${GRE}#::#.bash_profile#::#${BLU}    [2] Docker.${NC}"
         echo -e "${GRE}#::#.bash_profile#::#${BLU}    [3] .bash_profile file for $actualUser user .${NC}"
@@ -176,6 +177,7 @@ function setup() {
         echo -e "${GRE}#::#.bash_profile#::#${BLU}    [6] Delirio-Pi Github branch to use.${NC}"
         read -p "${GRE}#::#.bash_profile#::#${BBLU} Write the number of the option: ${NC}" option
         case $option in
+            0 ) setup_initial; break;;
             1 ) setup_scripts; break;;
             2 ) setup_docker; break;;
             3 ) importProfile; break;;
@@ -213,6 +215,19 @@ function delirio_github() {
     
     cd $actualFolder
     actualFolder=""
+}
+
+function setup_initial() {
+    actualUser=$(id -un)
+
+    echo -e "\e[0;32m#::#.bash_profile#::#\e[0;33m Creating folder /opt/delirio .\e[0m"
+    sudo mkdir -r /opt/delirio/scripts
+    echo -e "\e[0;32m#::#.bash_profile#::#\e[0;33m Copying scripts /opt/delirio .\e[0m"
+    sudo cp /opt/github/delirio-pi/scripts /opt/delirio/
+    echo -e "\e[0;32m#::#.bash_profile#::#\e[0;33m Copying bash_profile .\e[0m"
+    sudo cp /opt/delirio/scripts/profiles/.bash_profile /home/$actualUser/.bash_profile
+    echo -e "\e[0;32m#::#.bash_profile#::#\e[0;33m Added as Source.\e[0m"
+    . /home/$actualUser/.bash_profile
 }
 
 function setup_scripts() {
