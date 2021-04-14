@@ -221,7 +221,8 @@ function setup_initial() {
 
     echo -e "\e[0;32m#::#.bash_profile#::#\e[0;33m Creating folder /opt/delirio .\e[0m"
     sudo mkdir -p /opt/delirio/scripts
-    echo -e "\e[0;32m#::#.bash_profile#::#\e[0;33m Setting privileges 777 on /opt/delirio/scripts .\e[0m"
+    echo -e "\e[0;32m#::#.bash_profile#::#\e[0;33m Setting privileges 777 on /opt RPi folders.\e[0m"
+    sudo chown -R 777 /opt/github
     sudo chown -R 777 /opt/delirio/scripts
     echo -e "\e[0;32m#::#.bash_profile#::#\e[0;33m Copying scripts /opt/delirio .\e[0m"
     sudo cp /opt/github/delirio-pi/scripts /opt/delirio/
