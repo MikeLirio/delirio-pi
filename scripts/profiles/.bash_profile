@@ -67,11 +67,10 @@ function help() {
     echo -e "${GRE} #                                                                                                    ${GRE}#${NC}"
     echo -e "${GRE} #       ${BLU}printenvpi          ${RED}| ${YEL}Print the environment variables declared on the .bash_profile.         ${GRE}#${NC}"
     echo -e "${GRE} #                                                                                                    ${GRE}#${NC}"
-    echo -e "${GRE} #       ${BLU}setup               ${RED}| ${YEL}Loop to help to configure the Raspberry Pi through the                 ${GRE}#${NC}"
-    echo -e "${GRE} #                                 ${RED}| ${YEL}terminal.                                                              ${GRE}#${NC}"
-    echo -e "${GRE} #                                 ${RED}| ${YEL}It use internally the next functions:                            ${GRE}#${NC}"
-    echo -e "${GRE} #                                 ${RED}| ${BYEL}       setup_scripts      setup_docker     setup_case            ${GRE}#${NC}"
-    echo -e "${GRE} #                                 ${RED}| ${BYEL}       importProfileAll   importProfile                          ${GRE}#${NC}"
+    echo -e "${GRE} #       ${BLU}setup               ${RED}| ${YEL}Loop to help to configure the Raspberry Pi through the terminal.       ${GRE}#${NC}"
+    echo -e "${GRE} #                           ${RED}| ${YEL}It use internally the next functions:                                  ${GRE}#${NC}"
+    echo -e "${GRE} #                           ${RED}| ${BYEL}       setup_scripts      setup_docker     setup_case                ${GRE}#${NC}"
+    echo -e "${GRE} #                           ${RED}| ${BYEL}       importProfileAll   importProfile                              ${GRE}#${NC}"
     echo -e "${GRE} #                                                                                                    ${GRE}#${NC}"
     echo -e "${GRE} #       ${BLU}setup_scripts       ${RED}| ${YEL}Fetch and pull the repository folder and copy the script files.        ${GRE}#${NC}"
     echo -e "${GRE} #                                                                                                    ${GRE}#${NC}"
@@ -221,7 +220,9 @@ function setup_initial() {
     actualUser=$(id -un)
 
     echo -e "\e[0;32m#::#.bash_profile#::#\e[0;33m Creating folder /opt/delirio .\e[0m"
-    sudo mkdir -r /opt/delirio/scripts
+    sudo mkdir -p /opt/delirio/scripts
+    echo -e "\e[0;32m#::#.bash_profile#::#\e[0;33m Setting privileges 777 on /opt/delirio/scripts .\e[0m"
+    sudo chown -R 777 /opt/delirio/scripts
     echo -e "\e[0;32m#::#.bash_profile#::#\e[0;33m Copying scripts /opt/delirio .\e[0m"
     sudo cp /opt/github/delirio-pi/scripts /opt/delirio/
     echo -e "\e[0;32m#::#.bash_profile#::#\e[0;33m Copying bash_profile .\e[0m"
