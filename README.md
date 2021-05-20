@@ -132,6 +132,11 @@ $ chage -M999 delirio
 
 ### Shell Scripts
 
+The Diagram of below will describe the flow of how the scripts designed on this repository work.
+
+> Raspberry Pi - Installation - v0.1
+> ![Raspberry Pi - Bash Scripts - v0.1](README.assets/Raspberry Pi - Bash Scripts.jpg)
+
 The folder `./scripts` contains all Shell Scripts use along the **Raspberry Pi**. 
 
 The scrips contained are:

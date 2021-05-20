@@ -4,9 +4,9 @@
 # DESCRIPTION #################################################################################
 ###############################################################################################
 #                                                                                             #
-#   Version 0.1                                                                               #
+#   Version 1.0                                                                               #
 #                                                                                             #
-#   Collection of all the environment variables used in all scripts.                          #
+#   File to export and import the environment variables need it by the system.                #
 #                                                                                             #
 ###############################################################################################
 # MANDATORY VARIABLES #########################################################################
@@ -15,37 +15,28 @@
 : "${BASE_PATH_SCRIPTS:? The variable needs to be defined}"
 
 if [[ -z "${COLORS_SH_IMPORTED}" ]]; then
-    . $BASE_PATH_SCRIPTS/colors.sh        # Variables with the colors for the terminal.
+    . $BASE_PATH_SCRIPTS/utils/colors.sh        # Variables with the colors for the terminal.
 fi
 
-global_log="${GRE}#::#${YEL}global_environment_variables.sh${GRE}#::#${NC}"
+utils_log="${GRE}#::${YEL}./utils/utils.sh${GRE}::#${NC}"
 
 ###############################################################################################
 
-###############################################################################################
-# VARIABLES ###################################################################################
-###############################################################################################
-
-export BASE_PATH_SCRIPTS=/opt/delirio
-export USET_PATH=/opt/delirio
-
-export GITHUB_PATH=/opt/github
-export GITHUB_DELIRIO=$GITHUB_PATH/delirio-pi
-export GITHUB_DELIRIO_BRANCH=master
-export GITHUB_DELIRIO_BASH_PROFILE=$GITHUB_DELIRIO/scripts/profiles/.bash_profile
-export GITHUB_DELIRIO_URL=https://github.com/MikeLirio/delirio-pi.git
-
-export DOCKER_VOLUME_NAME_NGINX=nginx_volume
-
-###############################################################################################
-# IMPORTED SCRIPTS ############################################################################
-###############################################################################################
-
-. $BASE_PATH_SCRIPTS/colors.sh  # Variables with the colors for the terminal.
-
-###############################################################################################
-# FUNCTIONS ###################################################################################
-###############################################################################################
+# function setup_initial() {
+#     actualUser=$(id -un)
+# 
+#     echo -e "${utils_log}${YEL} Creating folder /opt/delirio .${NC}"
+#     sudo mkdir -p /opt/delirio/scripts
+#     echo -e "${utils_log}${YEL} Setting privileges 777 on /opt RPi folders.${NC}"
+#     sudo chown -R 777 /opt/github
+#     sudo chown -R 777 /opt/delirio/scripts
+#     echo -e "${utils_log}${YEL} Copying scripts /opt/delirio .${NC}"
+#     sudo cp -r /opt/github/delirio-pi/scripts /opt/delirio/
+#     echo -e "${utils_log}${YEL} Copying bash_profile .${NC}"
+#     sudo cp /opt/delirio/scripts/profiles/.bash_profile /home/$actualUser/.bash_profile
+#     echo -e "${utils_log}${YEL} Added as Source.${NC}"
+#     . /home/$actualUser/.bash_profile
+# }
 
 function printenvpi() {
     echo -e "${global_log}${YEL}Version ${BYEL}$VERSION ${NC}"
@@ -56,6 +47,7 @@ function printenvpi() {
     echo -e " ${YEL}The .bash_profiles contain the next environment variables:  ${NC}"
     echo -e " ${NC}"
     echo -e "     ${BLU}VERSION                        ${RED}| ${YEL} $VERSION  ${NC}"
+    echo -e "     ${BLU}INSTALL_VERSION                ${RED}| ${YEL} $INSTALL_VERSION  ${NC}"
     echo -e " ${NC}"
     echo -e "     ${BLU}BASE_PATH_SCRIPTS              ${RED}| ${YEL} $BASE_PATH_SCRIPTS ${NC}"
     echo -e " ${NC}"
