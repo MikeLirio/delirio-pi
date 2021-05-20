@@ -26,37 +26,31 @@ install_log="${GRE}#::${YEL}./install.sh${GRE}::#${NC}"
 ###############################################################################################
 
 function initial_setup() {
-    while true; do
-        echo -e "$install_log${YEL} Do you want to import the default configuration file to the system?${NC}"
-        echo "$(cat $BASE_PATH_SCRIPTS/config/default.conf)"
-
-        read -p "$(echo -e $install_log${YEL} Y/N: ${NC})" option
-        case $option in 
-            Y | y ) 
-                echo -e "$install_log${YEL} Loading ${BYEL}default${YEL} configuration...${NC}"
-                . $BASE_PATH_SCRIPTS/config/default.conf
-                printenvpi
-                break
-                ;;
-            N | n) 
-                read -p "$install_log${YEL} Write the fullpath with the filename to read it. (Ex. /opt/config/custom.conf" custom
-                echo -e "$install_log${YEL} Loading $custom configuration...${NC}"
-                #. $custom
-                ;;
+    read_configuration
+    move_delirio_system_files
+    while true; do 
+        read -p "$install_log${YEL} Do you want to configure the Nespi4Case?" option
+        case $option in
+            Y | y ) case_setup;;
+            N | n ) break;;
             * ) echo -e "$install_log${RED} No valid option. Try again...${NC}";;
         esac
     done
 }
 
 function case_setup() {
-    if [[ -z "${CASE_SETUP_IMPORTED}" ]]; then
-        . $BASE_PATH_SCRIPTS/case/setup.sh
-    fi
-
-    srp_help
+    echo "next step"
+    #if [[ -z "${CASE_SETUP_IMPORTED}" ]]; then
+    #    . $BASE_PATH_SCRIPTS/case/setup.sh
+    #fi
+    #srp_help
 }
 
 function bash_scripts_setup() {
+    #echo -e "${utils_log}${YEL} Copying bash_profile .${NC}"
+    #sudo cp $BASE_PATH_SCRIPTS/scripts/profiles/.bash_profile /home/$actualUser/.bash_profile
+    #echo -e "${utils_log}${YEL} Added as Source.${NC}"
+    #. /home/$actualUser/.bash_profile
     echo -e "$install_log${YEL} bash_scripts_setup${NC}"
 }
 
@@ -73,6 +67,7 @@ function bash_profiles() {
 }
 
 echo -e "$install_log${YEL} Setting the ${BYEL}Delirio Pi${YEL} configuration. Thanks for downloading!${NC}"
+echo -e "$install_log${YEL} Bear in mind that if it is the first time you are executing this script, please, to avoid issues select the option <${RED}[0] Initial setup.${YEL}> first.${NC}"
 while true; do
     echo -e "$install_log${YEL} What to you want to setup? ${NC}"
     echo -e "$install_log${BLU}    [${RED}0${BLU}] Initial setup.${NC}"
