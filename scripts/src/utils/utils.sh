@@ -32,6 +32,7 @@ function read_configuration() {
             Y | y )
                 echo -e "${utils_log}${YEL} Loading ${BYEL}default${YEL} configuration...${NC}"
                 cp $BASE_PATH_SCRIPTS/config/default.sh /etc/profile.d/delirio.env.sh
+                source /etc/profile
                 printenvpi
                 break
                 ;;
@@ -39,6 +40,7 @@ function read_configuration() {
                 read -p "$(echo -e ${utils_log}${YEL} Write the fullpath with the filename to read it. (Ex. /opt/config/custom.conf))" custom
                 echo -e "${utils_log}${YEL} Loading $custom configuration...${NC}"
                 cp $custom /etc/profile.d/delirio.env.sh
+                source /etc/profile
                 printenvpi
                 break
                 ;;
