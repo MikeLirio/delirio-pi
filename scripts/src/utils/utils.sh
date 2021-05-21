@@ -24,11 +24,11 @@ utils_log="${GRE}#::${YEL}./utils/utils.sh${GRE}::#${NC}"
 
 function move_delirio_system_files() {
     echo -e "${utils_log}${YEL} Creating folder $BASE_PATH_SCRIPTS .${NC}"
-    sudo mkdir -p $BASE_PATH_SCRIPTS/scripts
+    mkdir -p $BASE_PATH_SCRIPTS/scripts
     echo -e "${utils_log}${YEL} Setting privileges 777 on /opt RPi folders.${NC}"
-    sudo chown -R 777 $BASE_PATH_SCRIPTS/scripts
+    chown -R 777 $BASE_PATH_SCRIPTS/scripts
     echo -e "${utils_log}${YEL} Copying scripts $BASE_PATH_SCRIPTS .${NC}"
-    sudo cp -r $GITHUB_DELIRIO/scripts/src/* $BASE_PATH_SCRIPTS/
+    cp -r $GITHUB_DELIRIO/scripts/src/* $BASE_PATH_SCRIPTS/
 }
 
 function read_configuration() {
