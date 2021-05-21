@@ -25,20 +25,22 @@ utils_log="${GRE}#::${YEL}./utils/utils.sh${GRE}::#${NC}"
 function read_configuration() {
     while true; do
         echo -e "${utils_log}${YEL} Do you want to import the default configuration file to the system?${NC}"
+        echo -e "${utils_log}${YEL} Making a backup of actual /etc/environment file"
+        cp /etc/environment /etc/environment.backup.$(date +%Y%m%d)
         echo "$(cat $BASE_PATH_SCRIPTS/config/default.conf)"
 
         read -p "$(echo -e ${utils_log}${YEL} Y/N: ${NC})" option
         case $option in 
-            Y | y ) 
+            Y | y )
                 echo -e "${utils_log}${YEL} Loading ${BYEL}default${YEL} configuration...${NC}"
-                . $BASE_PATH_SCRIPTS/config/default.conf
+                cat $BASE_PATH_SCRIPTS/config/default.conf >> /etc/environment
                 printenvpi
                 break
                 ;;
             N | n) 
                 read -p "${utils_log}${YEL} Write the fullpath with the filename to read it. (Ex. /opt/config/custom.conf" custom
                 echo -e "${utils_log}${YEL} Loading $custom configuration...${NC}"
-                . $custom
+                cat $custom >> /etc/environment
                 ;;
             * ) echo -e "${utils_log}${RED} No valid option. Try again...${NC}";;
         esac
