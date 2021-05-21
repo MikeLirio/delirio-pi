@@ -22,18 +22,6 @@ utils_log="${GRE}#::${YEL}./utils/utils.sh${GRE}::#${NC}"
 
 ###############################################################################################
 
-function move_delirio_system_files() {
-    echo -e "${utils_log}${YEL} Creating folder $BASE_PATH_SCRIPTS .${NC}"
-    mkdir -p $BASE_PATH_SCRIPTS/scripts
-    echo -e "${utils_log}${YEL} Setting privileges 777 on /opt RPi folders.${NC}"
-    chown -R 777 $BASE_PATH_SCRIPTS/scripts
-    echo -e "${utils_log}${YEL} Copying scripts $BASE_PATH_SCRIPTS .${NC}"
-    cp -r $GITHUB_DELIRIO/scripts/src/utils $BASE_PATH_SCRIPTS/
-    cp -r $GITHUB_DELIRIO/scripts/src/config $BASE_PATH_SCRIPTS/
-    cp -r $GITHUB_DELIRIO/scripts/src/install.sh $BASE_PATH_SCRIPTS/
-}
-}
-
 function read_configuration() {
     while true; do
         echo -e "$install_log${YEL} Do you want to import the default configuration file to the system?${NC}"
@@ -55,6 +43,17 @@ function read_configuration() {
             * ) echo -e "$install_log${RED} No valid option. Try again...${NC}";;
         esac
     done
+}
+
+function move_delirio_system_files() {
+    echo -e "${utils_log}${YEL} Creating folder $BASE_PATH_SCRIPTS .${NC}"
+    mkdir -p $BASE_PATH_SCRIPTS/scripts
+    echo -e "${utils_log}${YEL} Setting privileges 777 on /opt RPi folders.${NC}"
+    chown -R 777 $BASE_PATH_SCRIPTS/scripts
+    echo -e "${utils_log}${YEL} Copying scripts $BASE_PATH_SCRIPTS .${NC}"
+    cp -r $GITHUB_DELIRIO/scripts/src/utils $BASE_PATH_SCRIPTS/
+    cp -r $GITHUB_DELIRIO/scripts/src/config $BASE_PATH_SCRIPTS/
+    cp -r $GITHUB_DELIRIO/scripts/src/install.sh $BASE_PATH_SCRIPTS/
 }
 
 function printenvpi() {
