@@ -60,7 +60,7 @@ function move_delirio_system_files() {
 
 function move_nespi4case_system_files() {
     echo -e "${utils_log}${YEL} Copying scripts $GITHUB_DELIRIO/scripts/src/case to $BASE_PATH_SCRIPTS ${NC}"
-    cp -r $GITHUB_DELIRIO/scripts/src/install.sh $BASE_PATH_SCRIPTS/
+    cp -r $GITHUB_DELIRIO/scripts/src/case $BASE_PATH_SCRIPTS/
 }
 
 function printenvpi() {

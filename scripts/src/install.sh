@@ -31,7 +31,7 @@ function initial_setup() {
     while true; do 
         read -p "$(echo -e $install_log${YEL} Do you want to configure the Nespi4Case? Y/N)" opt_install_case
         case $opt_install_case in
-            Y | y ) case_setup;;
+            Y | y ) case_setup; break;;
             N | n ) break;;
             * ) echo -e "$install_log${RED} No valid option. Try again...${NC}";;
         esac
