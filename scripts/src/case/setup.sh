@@ -32,11 +32,11 @@
 ###############################################################################################
 
 if [[ -z "${COLORS_SH_IMPORTED}" ]]; then
-    . $BASE_PATH_SCRIPTS/colors.sh        # Variables with the colors for the terminal.
+    . $BASE_PATH_SCRIPTS/utils/colors.sh        # Variables with the colors for the terminal.
 fi
 
 if [[ -z "${PROGRESS_BAR_SH_IMPORTED}" ]]; then
-    . $BASE_PATH_SCRIPTS/progress_bar.sh  # Progress bar.
+    . $BASE_PATH_SCRIPTS/utils/progress_bar.sh  # Progress bar.
 fi
 
 ###############################################################################################
