@@ -29,7 +29,7 @@ function initial_setup() {
     read_configuration
     move_delirio_system_files
     while true; do 
-        read -p "$install_log${YEL} Do you want to configure the Nespi4Case?" option
+        read -p "$($install_log${YEL} Do you want to configure the Nespi4Case?)" option
         case $option in
             Y | y ) case_setup;;
             N | n ) break;;

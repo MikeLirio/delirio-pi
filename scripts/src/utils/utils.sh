@@ -28,7 +28,10 @@ function move_delirio_system_files() {
     echo -e "${utils_log}${YEL} Setting privileges 777 on /opt RPi folders.${NC}"
     chown -R 777 $BASE_PATH_SCRIPTS/scripts
     echo -e "${utils_log}${YEL} Copying scripts $BASE_PATH_SCRIPTS .${NC}"
-    cp -r $GITHUB_DELIRIO/scripts/src/* $BASE_PATH_SCRIPTS/
+    cp -r $GITHUB_DELIRIO/scripts/src/utils $BASE_PATH_SCRIPTS/
+    cp -r $GITHUB_DELIRIO/scripts/src/config $BASE_PATH_SCRIPTS/
+    cp -r $GITHUB_DELIRIO/scripts/src/install.sh $BASE_PATH_SCRIPTS/
+}
 }
 
 function read_configuration() {
@@ -57,7 +60,7 @@ function read_configuration() {
 function printenvpi() {
     echo -e "${global_log}${YEL}Version ${BYEL}$VERSION ${NC}"
     echo -e "${GRE} ######################################################################################################${NC}"
-    echo -e "${GRE} ## ${YEL}BASH PROFILE ENVIRONMENT VARIABLE ${GRE}#################################################################${NC}"
+    echo -e "${GRE} ## ${YEL}ENVIRONMENT VARIABLE ${GRE}##############################################################################${NC}"
     echo -e "${GRE} ######################################################################################################${NC}"
     echo -e " ${NC}"
     echo -e " ${YEL}The .bash_profiles contain the next environment variables:  ${NC}"
@@ -75,7 +78,7 @@ function printenvpi() {
     echo -e "     ${BLU}GITHUB_DELIRIO_BRANCH          ${RED}| ${YEL} $GITHUB_DELIRIO_BRANCH ${NC}"
     echo -e "     ${BLU}GITHUB_DELIRIO_URL             ${RED}| ${YEL} $GITHUB_DELIRIO_URL ${NC}"
     echo -e " ${NC}"
-    echo -e "     ${BLU}DOCKER_VOLUME_NAME_NGINX    ${RED}| ${YEL} $DOCKER_VOLUME_NAME_NGINX ${NC}"
+    echo -e "     ${BLU}DOCKER_VOLUME_NAME_NGINX       ${RED}| ${YEL} $DOCKER_VOLUME_NAME_NGINX ${NC}"
     echo -e " ${NC}"
     echo -e "${GRE} ######################################################################################################${NC}"
 }
