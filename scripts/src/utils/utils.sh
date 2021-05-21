@@ -24,23 +24,23 @@ utils_log="${GRE}#::${YEL}./utils/utils.sh${GRE}::#${NC}"
 
 function read_configuration() {
     while true; do
-        echo -e "$install_log${YEL} Do you want to import the default configuration file to the system?${NC}"
+        echo -e "${utils_log}${YEL} Do you want to import the default configuration file to the system?${NC}"
         echo "$(cat $BASE_PATH_SCRIPTS/config/default.conf)"
 
-        read -p "$(echo -e $install_log${YEL} Y/N: ${NC})" option
+        read -p "$(echo -e ${utils_log}${YEL} Y/N: ${NC})" option
         case $option in 
             Y | y ) 
-                echo -e "$install_log${YEL} Loading ${BYEL}default${YEL} configuration...${NC}"
+                echo -e "${utils_log}${YEL} Loading ${BYEL}default${YEL} configuration...${NC}"
                 . $BASE_PATH_SCRIPTS/config/default.conf
                 printenvpi
                 break
                 ;;
             N | n) 
-                read -p "$install_log${YEL} Write the fullpath with the filename to read it. (Ex. /opt/config/custom.conf" custom
-                echo -e "$install_log${YEL} Loading $custom configuration...${NC}"
+                read -p "${utils_log}${YEL} Write the fullpath with the filename to read it. (Ex. /opt/config/custom.conf" custom
+                echo -e "${utils_log}${YEL} Loading $custom configuration...${NC}"
                 . $custom
                 ;;
-            * ) echo -e "$install_log${RED} No valid option. Try again...${NC}";;
+            * ) echo -e "${utils_log}${RED} No valid option. Try again...${NC}";;
         esac
     done
 }
