@@ -40,7 +40,7 @@ function read_configuration() {
                 break
                 ;;
             N | n) 
-                read -p "${utils_log}${YEL} Write the fullpath with the filename to read it. (Ex. /opt/config/custom.conf" custom
+                read -p "$(echo -e ${utils_log}${YEL} Write the fullpath with the filename to read it. (Ex. /opt/config/custom.conf))" custom
                 echo -e "${utils_log}${YEL} Loading $custom configuration...${NC}"
                 cat $custom >> /etc/environment
                 printenvpi
