@@ -28,6 +28,7 @@ function read_configuration() {
         echo -e "${utils_log}${YEL} Making a backup of actual /etc/environment file"
         cat /etc/environment
         cp /etc/environment /etc/environment.backup.$(date +%Y%m%d)
+        echo -e "${utils_log}${YEL} The default config file will have:"
         echo "$(cat $BASE_PATH_SCRIPTS/config/default.conf)"
 
         read -p "$(echo -e ${utils_log}${YEL} Y/N: ${NC})" option
