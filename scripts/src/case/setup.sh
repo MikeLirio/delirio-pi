@@ -10,6 +10,7 @@
 #                                                                                             #
 #   1.1                                                                                       #
 #      - Adapted with the new environment variables. Added control with need it variables.    #
+#      - Added unistall functionality.                                                        #
 #                                                                                             #
 #   This job will set the script & service files to control the buttons of the Raspberry Pi.  #
 #                                                                                             #
@@ -18,6 +19,7 @@
 #       -s : shutdown; set the files for the shutdown button.                                 #
 #       -c : safe-close; set the safe close script.                                           #
 #       -h : help; print in console this comments.                                            #
+#       -u : unistall; unistall the case configuration.                                       #
 #       none : set all the files.                                                             #
 #                                                                                             #
 ###############################################################################################
@@ -66,6 +68,7 @@ function srp_help () {
     echo -e "${GRE}#       ${BLU}-s : shutdown; ${YEL}set the files for the shutdown button.${GRE}                                 #${NC}"
     echo -e "${GRE}#       ${BLU}-c : safe-close; ${YEL}set the safe close script.${GRE}                                           #${NC}"
     echo -e "${GRE}#       ${BLU}-h : help; ${YEL}print in console this comments.${GRE}                                            #${NC}"
+    echo -e "${GRE}#       ${BLU}-u : uninstall; ${YEL}unistall the case configuration.${GRE}                                      #${NC}"
     echo -e "${GRE}#       ${BLU}none : ${YEL}set all the files.${GRE}                                                             #${NC}"
     echo -e "${GRE}#                                                                                             #${NC}"
     echo -e "${GRE}###############################################################################################${NC}"
@@ -134,6 +137,35 @@ function apply_daemons() {
     progress_bar 15
 }
 
+function unistall_nespi4case() {
+    progress_bar 5
+
+    echo -e "${case_logs}${YEL} Stopping the ${BYEL}nespi4case.restart.service${YEL} service...${NC}"
+
+    systemctl stop nespi4case.shutdown.service
+    systemctl disable nespi4case.shutdown.service
+
+    progress_bar 35
+
+    echo -e "${case_logs}${YEL} Stopping the ${BYEL}nespi4case.shutdown.service${YEL} service...${NC}"
+
+    systemctl stop nespi4case.shutdown.service
+    systemctl disable nespi4case.shutdown.service
+
+    progress_bar 35
+
+    echo -e "${case_logs}${YEL} Restarting daemons...${NC}"
+
+    systemctl daemon-reload
+
+    progress_bar 10
+
+    echo -e "${case_logs}${YEL} Removing the safe ${BYEL}safe.close.sh${YEL} script${NC}"
+    rm $RP_SCRIPT_CASE_PATH/safe.close.sh
+
+    progress_bar 15
+}
+
 if [[ $1 == *"h"* ]]; then 
     srp_help
 else
@@ -161,6 +193,10 @@ else
 
         if [[ $1 == *"c"* ]]; then 
             safe_close
+        fi
+
+        if [[ $1 == *"u"* ]]; then 
+            unistall_nespi4case
         fi
 
         if [ "$DAEMON" = true ] ; then

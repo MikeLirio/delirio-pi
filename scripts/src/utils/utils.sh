@@ -67,10 +67,28 @@ function move_nespi4case_system_files() {
     cp -r $GITHUB_DELIRIO/scripts/src/case $BASE_PATH_SCRIPTS/
 }
 
+function remove_nespi4case_system_files() {
+    echo -e "${utils_log}${YEL} Removing files from $BASE_PATH_SCRIPTS/case ${NC}"
+    rm -rf $BASE_PATH_SCRIPTS/case
+}
+
+function unistall_initial_setup() {
+    echo -e "${utils_log}${YEL} Removing $BASE_PATH_SCRIPTS/install.sh file.${NC}"
+    rm $BASE_PATH_SCRIPTS/install.sh
+    echo -e "${utils_log}${YEL} Removing $BASE_PATH_SCRIPTS/utils file.${NC}"
+    rm -rf $BASE_PATH_SCRIPTS/utils
+    echo -e "${utils_log}${YEL} Removing $BASE_PATH_SCRIPTS/config file.${NC}"
+    rm -rf $BASE_PATH_SCRIPTS/config
+    echo -e "${utils_log}${YEL} Removing /etc/profile.d/delirio.env.sh file.${NC}"
+    rm /etc/profile.d/delirio.env.sh
+    echo -e "${utils_log}${YEL} Reloading the default profile.${NC}"
+    source /etc/profile
+    printenv
+}
+
 function printenvpi() {
-    echo -e "${global_log}${YEL}Version ${BYEL}$VERSION ${NC}"
     echo -e "${GRE} ######################################################################################################${NC}"
-    echo -e "${GRE} ## ${YEL}ENVIRONMENT VARIABLE ${GRE}##############################################################################${NC}"
+    echo -e "${GRE} ## ${YEL}DELIRIO ENVIRONMENT VARIABLE ${GRE}#######################################################################${NC}"
     echo -e "${GRE} ######################################################################################################${NC}"
     echo -e " ${NC}"
     echo -e " ${YEL}The .bash_profiles contain the next environment variables:  ${NC}"

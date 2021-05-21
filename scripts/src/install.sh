@@ -29,8 +29,8 @@ function initial_setup() {
     read_configuration
     move_delirio_system_files
     while true; do 
-        read -p "$(echo -e $install_log${YEL} Do you want to configure the Nespi4Case? Y/N)" opt_install_case
-        case $opt_install_case in
+        read -p "$(echo -e $install_log${YEL} Do you want to configure the Nespi4Case? Y/N)" option
+        case $option in
             Y | y ) case_setup; break;;
             N | n ) break;;
             * ) echo -e "$install_log${RED} No valid option. Try again...${NC}";;
@@ -64,24 +64,53 @@ function case_setup() {
     done
 }
 
-function bash_scripts_setup() {
-    #echo -e "${utils_log}${YEL} Copying bash_profile .${NC}"
-    #sudo cp $BASE_PATH_SCRIPTS/scripts/profiles/.bash_profile /home/$actualUser/.bash_profile
-    #echo -e "${utils_log}${YEL} Added as Source.${NC}"
-    #. /home/$actualUser/.bash_profile
-    echo -e "$install_log${YEL} bash_scripts_setup${NC}"
-}
-
 function docker_setup() {
     echo -e "$install_log${YEL} docker_setup${NC}"
 }
 
-function unistall() {
-    echo -e "$install_log${YEL} unistall${NC}"
-}
-
 function bash_profiles() {
     echo -e "$install_log${YEL} bash_profiles${NC}"
+}
+
+function unistall() {
+    while true; do
+        echo -e "$install_log${YEL} Which software do you want to remove?${NC}"
+        echo -e "$install_log${BLU}    [${RED}0${BLU}] Initial Setup.${NC}"
+        echo -e "$install_log${BLU}    [${RED}1${BLU}] .bash_profile from users.${NC}"
+        echo -e "$install_log${BLU}    [${RED}2${BLU}] Nespi4Case software.${NC}"
+        echo -e "$install_log${BLU}    [${RED}3${BLU}] Docker.${NC}"
+        echo -e "$install_log${BLU}    [${RED}4${BLU}] All.${NC}"
+        echo -e "$install_log${BLU}    [${RED}5${BLU}] Exit.${NC}"
+
+        read -p "$(echo -e $install_log${YEL} Write the number of the option: ${NC})" option
+        case $option in 
+            0 )  
+                unistall_initial_setup
+                ;;
+            1 )  
+                echo "WIP"
+                ;;
+            2 )  
+                bash $BASE_PATH_SCRIPTS/case/setup.sh -u
+                remove_nespi4case_system_files
+                ;;
+            3 )  
+                echo "WIP"
+                ;;
+            4 ) 
+                echo "WIP"
+                # .bash_profile
+                # docker
+                # Case
+                bash $BASE_PATH_SCRIPTS/case/setup.sh -u
+                remove_nespi4case_system_files
+                # Initial Setup
+                unistall_initial_setup
+                ;;
+            5 ) break;;
+            * ) echo -e "$install_log${RED} No valid option. Try again...${NC}";;
+        esac
+    done
 }
 
 echo -e "$install_log${YEL} Setting the ${BYEL}Delirio Pi${YEL} configuration. Thanks for downloading!${NC}"
