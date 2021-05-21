@@ -50,9 +50,16 @@ function move_delirio_system_files() {
     mkdir -p $BASE_PATH_SCRIPTS/scripts
     echo -e "${utils_log}${YEL} Setting privileges 777 on /opt RPi folders.${NC}"
     chown -R 777 $BASE_PATH_SCRIPTS/scripts
-    echo -e "${utils_log}${YEL} Copying scripts $BASE_PATH_SCRIPTS .${NC}"
+    echo -e "${utils_log}${YEL} Copying scripts $GITHUB_DELIRIO/scripts/src/utils to $BASE_PATH_SCRIPTS ${NC}"
     cp -r $GITHUB_DELIRIO/scripts/src/utils $BASE_PATH_SCRIPTS/
+    echo -e "${utils_log}${YEL} Copying scripts $GITHUB_DELIRIO/scripts/src/config to $BASE_PATH_SCRIPTS ${NC}"
     cp -r $GITHUB_DELIRIO/scripts/src/config $BASE_PATH_SCRIPTS/
+    echo -e "${utils_log}${YEL} Copying scripts $GITHUB_DELIRIO/scripts/src/install.sh to $BASE_PATH_SCRIPTS ${NC}"
+    cp -r $GITHUB_DELIRIO/scripts/src/install.sh $BASE_PATH_SCRIPTS/
+}
+
+function move_nespi4case_system_files() {
+    echo -e "${utils_log}${YEL} Copying scripts $GITHUB_DELIRIO/scripts/src/case to $BASE_PATH_SCRIPTS ${NC}"
     cp -r $GITHUB_DELIRIO/scripts/src/install.sh $BASE_PATH_SCRIPTS/
 }
 

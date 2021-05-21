@@ -4,7 +4,12 @@
 # DESCRIPTION #################################################################################
 ###############################################################################################
 #                                                                                             #
-#   Version 1.0                                                                               #
+#   Version 1.1                                                                               #
+#                                                                                             #
+#   ChangeLog                                                                                 #
+#                                                                                             #
+#   1.1                                                                                       #
+#      - Adapted with the new environment variables. Added control with need it variables.    #
 #                                                                                             #
 #   This job will set the script & service files to control the buttons of the Raspberry Pi.  #
 #                                                                                             #
@@ -20,6 +25,7 @@
 ###############################################################################################
 
 : "${BASE_PATH_SCRIPTS:? The variable needs to be defined}"
+: "${GITHUB_DELIRIO:? The variable needs to be defined}"
 
 ###############################################################################################
 # IMPORTED SCRIPTS ############################################################################
@@ -37,10 +43,9 @@ fi
 # VARIABLES ###################################################################################
 ###############################################################################################
 
-export CASE_SETUP_IMPORTED=true
-
 RP_SCRIPT_CASE_PATH=$BASE_PATH_SCRIPTS/case     # Path to move the CASE scripts.
 UBUNTU_SYSTEMD=/etc/systemd/system              # Path to move the new services for the buttons.
+GITHUB_DELIRIO_SCRIPTS=$GITHUB_DELIRIO/scripts/src
 case_logs="${GRE}#::${YEL}case/setup.sh${GRE}::#${NC}"
 
 ###############################################################################################
@@ -67,22 +72,22 @@ function srp_help () {
 }
 
 function restart() {
-    echo -e "$case_logs${YEL} Copying the scripts for the ${BYEL}Restart${YEL} button...${NC}"
-    echo -e "$case_logs${YEL} Stopping the ${BYEL}nespi4case.restart.service${YEL} service...${NC}"
+    echo -e "${case_logs}${YEL} Copying the scripts for the ${BYEL}Restart${YEL} button...${NC}"
+    echo -e "${case_logs}${YEL} Stopping the ${BYEL}nespi4case.restart.service${YEL} service...${NC}"
 
     systemctl stop nespi4case.restart.service
     systemctl disable nespi4case.restart.service
 
     progress_bar 15
 
-    echo -e "$case_logs${YEL} Copying ${BYEL}nespi4case.restart.service${YEL} and ${BYEL}nespi4case.restart.gpio.py${YEL} files...${NC}"
+    echo -e "${case_logs}${YEL} Copying ${BYEL}nespi4case.restart.service${YEL} and ${BYEL}nespi4case.restart.gpio.py${YEL} files...${NC}"
 
-    cp ./nespi4case.restart.service $UBUNTU_SYSTEMD/nespi4case.restart.service
-    cp ./nespi4case.restart.gpio.py $RP_SCRIPT_CASE_PATH/nespi4case.restart.gpio.py
+    cp $GITHUB_DELIRIO_SCRIPTS/case/nespi4case.restart.service $UBUNTU_SYSTEMD/nespi4case.restart.service
+    cp $GITHUB_DELIRIO_SCRIPTS/case/nespi4case.restart.gpio.py $RP_SCRIPT_CASE_PATH/nespi4case.restart.gpio.py
 
     progress_bar 15
 
-    echo -e "$case_logs${YEL} Enabling the ${BYEL}nespi4case.restart.service${YEL} service...${NC}"
+    echo -e "${case_logs}${YEL} Enabling the ${BYEL}nespi4case.restart.service${YEL} service...${NC}"
 
     systemctl enable nespi4case.restart.service
 
@@ -90,22 +95,22 @@ function restart() {
 }
 
 function shutdown() {
-    echo -e "$case_logs${YEL} Copying the scripts for the ${BYEL}Shutdown${YEL} button...${NC}"
-    echo -e "$case_logs${YEL} Stopping the ${BYEL}nespi4case.shutdown.service${YEL} service...${NC}"
+    echo -e "${case_logs}${YEL} Copying the scripts for the ${BYEL}Shutdown${YEL} button...${NC}"
+    echo -e "${case_logs}${YEL} Stopping the ${BYEL}nespi4case.shutdown.service${YEL} service...${NC}"
 
     systemctl stop nespi4case.shutdown.service
     systemctl disable nespi4case.shutdown.service
 
     progress_bar 15
 
-    echo -e "$case_logs${YEL} Copying ${BYEL}nespi4case.shutdown.service${YEL} and ${BYEL}nespi4case.shutdown.gpio.py${YEL} files...${NC}"
+    echo -e "${case_logs}${YEL} Copying ${BYEL}nespi4case.shutdown.service${YEL} and ${BYEL}nespi4case.shutdown.gpio.py${YEL} files...${NC}"
 
-    cp ./nespi4case.shutdown.service $UBUNTU_SYSTEMD/nespi4case.shutdown.service
-    cp ./nespi4case.shutdown.gpio.py $RP_SCRIPT_CASE_PATH/nespi4case.shutdown.gpio.py
+    cp $GITHUB_DELIRIO_SCRIPTS/case/nespi4case.shutdown.service $UBUNTU_SYSTEMD/nespi4case.shutdown.service
+    cp $GITHUB_DELIRIO_SCRIPTS/case/nespi4case.shutdown.gpio.py $RP_SCRIPT_CASE_PATH/nespi4case.shutdown.gpio.py
 
     progress_bar 15
 
-    echo -e "$case_logs${YEL} Enabling the ${BYEL}nespi4case.shutdown.service${YEL} service...${NC}"
+    echo -e "${case_logs}${YEL} Enabling the ${BYEL}nespi4case.shutdown.service${YEL} service...${NC}"
 
     systemctl enable nespi4case.shutdown.service
 
@@ -113,15 +118,15 @@ function shutdown() {
 }
 
 function safe_close () {
-    echo -e "$case_logs${YEL} Copying the safe ${BYEL}safe.close.sh${YEL} script${NC}"
+    echo -e "${case_logs}${YEL} Copying the safe ${BYEL}safe.close.sh${YEL} script${NC}"
 
-    cp ./safe.close.sh $RP_SCRIPT_CASE_PATH/safe.close.sh 
+    cp $GITHUB_DELIRIO_SCRIPTS/case/safe.close.sh $RP_SCRIPT_CASE_PATH/safe.close.sh 
 
     progress_bar 5
 }
 
 function apply_daemons() {
-    echo -e "$case_logs${YEL} Loading the new daemons${NC}"
+    echo -e "${case_logs}${YEL} Loading the new daemons${NC}"
 
     systemctl daemon-reload
     systemctl reset-failed
@@ -132,7 +137,7 @@ function apply_daemons() {
 if [[ $1 == *"h"* ]]; then 
     srp_help
 else
-    echo -e "$case_logs${YEL} Setting up the scripts for the ${RED}Nespi 4 Case.${NC}"
+    echo -e "${case_logs}${YEL} Setting up the scripts for the ${RED}Nespi 4 Case.${NC}"
     progress_bar_start
 
     # By default will execute all the steps
@@ -164,5 +169,5 @@ else
     fi
 
     progress_bar_end
-    echo -e "$case_logs${YEL} Setting up finished.${NC}"
+    echo -e "${case_logs}${YEL} Setting up finished.${NC}"
 fi

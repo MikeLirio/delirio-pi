@@ -29,7 +29,7 @@ function initial_setup() {
     read_configuration
     move_delirio_system_files
     while true; do 
-        read -p "$(echo -e $install_log${YEL} Do you want to configure the Nespi4Case?)" opt_install_case
+        read -p "$(echo -e $install_log${YEL} Do you want to configure the Nespi4Case? Y/N)" opt_install_case
         case $opt_install_case in
             Y | y ) case_setup;;
             N | n ) break;;
@@ -39,11 +39,26 @@ function initial_setup() {
 }
 
 function case_setup() {
-    echo "next step"
-    #if [[ -z "${CASE_SETUP_IMPORTED}" ]]; then
-    #    . $BASE_PATH_SCRIPTS/case/setup.sh
-    #fi
-    #srp_help
+    while true; do
+        echo -e "$install_log${YEL} Which action would you like to perform about ${BYEL}Nespi4Case${YEL} ?${NC}"
+        echo -e "$install_log${BLU}    [${RED}0${BLU}] Install/Update on Raspberry Pi.${NC}"
+        echo -e "$install_log${BLU}    [${RED}1${BLU}] Install Reset button daemon.${NC}"
+        echo -e "$install_log${BLU}    [${RED}2${BLU}] Install Shutdown button daemon.${NC}"
+        echo -e "$install_log${BLU}    [${RED}3${BLU}] Install the safe-close scripts.${NC}"
+        echo -e "$install_log${BLU}    [${RED}4${BLU}] Install/Update all.${NC}"
+        echo -e "$install_log${BLU}    [${RED}5${BLU}] Exit.${NC}"
+
+        read -p "$(echo -e $install_log${YEL} Write the number of the option: ${NC})" option
+        case $option in 
+            0 ) move_nespi4case_system_files;;
+            1 ) bash $BASE_PATH_SCRIPTS/case/setup.sh -r;;
+            2 ) bash $BASE_PATH_SCRIPTS/case/setup.sh -s;;
+            3 ) bash $BASE_PATH_SCRIPTS/case/setup.sh -c;;
+            4 ) bash $BASE_PATH_SCRIPTS/case/setup.sh;;
+            5 ) break;;
+            * ) echo -e "$install_log${RED} No valid option. Try again...${NC}";;
+        esac
+    done
 }
 
 function bash_scripts_setup() {
