@@ -54,7 +54,10 @@ function case_setup() {
             1 ) bash $BASE_PATH_SCRIPTS/case/setup.sh -r;;
             2 ) bash $BASE_PATH_SCRIPTS/case/setup.sh -s;;
             3 ) bash $BASE_PATH_SCRIPTS/case/setup.sh -c;;
-            4 ) bash $BASE_PATH_SCRIPTS/case/setup.sh;;
+            4 ) 
+                move_nespi4case_system_files
+                bash $BASE_PATH_SCRIPTS/case/setup.sh
+                ;;
             5 ) break;;
             * ) echo -e "$install_log${RED} No valid option. Try again...${NC}";;
         esac
