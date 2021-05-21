@@ -25,24 +25,20 @@ utils_log="${GRE}#::${YEL}./utils/utils.sh${GRE}::#${NC}"
 function read_configuration() {
     while true; do
         echo -e "${utils_log}${YEL} Do you want to import the default configuration file to the system?${NC}"
-        echo -e "${utils_log}${YEL} Making a backup of actual /etc/environment file"
-        cat /etc/environment
-        cp /etc/environment /etc/environment.backup.$(date +%Y%m%d)
-        echo -e "${utils_log}${YEL} The default config file will have:"
-        echo "$(cat $BASE_PATH_SCRIPTS/config/default.conf)"
+        echo "$(cat $BASE_PATH_SCRIPTS/config/default.sh)"
 
         read -p "$(echo -e ${utils_log}${YEL} Y/N: ${NC})" option
         case $option in 
             Y | y )
                 echo -e "${utils_log}${YEL} Loading ${BYEL}default${YEL} configuration...${NC}"
-                cat $BASE_PATH_SCRIPTS/config/default.conf >> /etc/environment
+                cp $BASE_PATH_SCRIPTS/config/default.sh /etc/profile.d/delirio.env.sh
                 printenvpi
                 break
                 ;;
             N | n) 
                 read -p "$(echo -e ${utils_log}${YEL} Write the fullpath with the filename to read it. (Ex. /opt/config/custom.conf))" custom
                 echo -e "${utils_log}${YEL} Loading $custom configuration...${NC}"
-                cat $custom >> /etc/environment
+                cp $custom /etc/profile.d/delirio.env.sh
                 printenvpi
                 break
                 ;;
