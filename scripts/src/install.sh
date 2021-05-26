@@ -16,8 +16,12 @@
 
 : "${BASE_PATH_SCRIPTS:= "$(pwd)"}"
 
-. $BASE_PATH_SCRIPTS/utils/colors.sh
-. $BASE_PATH_SCRIPTS/utils/utils.sh
+if [[ -z "${COLORS_SH_IMPORTED}" ]]; then
+    . $BASE_PATH_SCRIPTS/utils/colors.sh        # Variables with the colors for the terminal.
+fi
+if [[ -z "${COLORS_SH_IMPORTED}" ]]; then
+    . $BASE_PATH_SCRIPTS/utils/colors.sh        # Variables with the colors for the terminal.
+fi
 
 export INSTALL_VERSION=1.0
 
@@ -68,10 +72,6 @@ function docker_setup() {
     echo -e "$install_log${YEL} docker_setup${NC}"
 }
 
-function bash_profiles() {
-    echo -e "$install_log${YEL} bash_profiles${NC}"
-}
-
 function unistall() {
     while true; do
         echo -e "$install_log${YEL} Which software do you want to remove?${NC}"
@@ -88,19 +88,20 @@ function unistall() {
                 unistall_initial_setup
                 ;;
             1 )  
-                echo "WIP"
+                uninstall_bash_profiles
                 ;;
             2 )  
                 bash $BASE_PATH_SCRIPTS/case/setup.sh -u
                 remove_nespi4case_system_files
                 ;;
             3 )  
-                echo "WIP"
+                echo "Docker WIP"
                 ;;
             4 ) 
-                echo "WIP"
                 # .bash_profile
+                uninstall_bash_profiles
                 # docker
+                echo "Docker WIP"
                 # Case
                 bash $BASE_PATH_SCRIPTS/case/setup.sh -u
                 remove_nespi4case_system_files
@@ -112,10 +113,18 @@ function unistall() {
         esac
     done
 }
-
+echo -e "${GRE} ######################################################################################################${NC}"
+echo -e "${install_log}${RED} /\  __-.  /\  ___\   /\ \       /\ \   /\  == \   /\ \   /\  __ \      /\  == \ /\ \   "
+echo -e "${install_log}${RED} \ \ \/\ \ \ \  __\   \ \ \____  \ \ \  \ \  __<   \ \ \  \ \ \/\ \     \ \  _-/ \ \ \  "
+echo -e "${install_log}${RED}  \ \____-  \ \_____\  \ \_____\  \ \_\  \ \_\ \_\  \ \_\  \ \_____\     \ \_\    \ \_\ "
+echo -e "${install_log}${RED}   \/____/   \/_____/   \/_____/   \/_/   \/_/ /_/   \/_/   \/_____/      \/_/     \/_/ "
+echo -e "${GRE} ######################################################################################################${NC}"
 echo -e "$install_log${YEL} Setting the ${BYEL}Delirio Pi${YEL} configuration. Thanks for downloading!${NC}"
-echo -e "$install_log${YEL} Bear in mind that if it is the first time you are executing this script, please, to avoid issues select the option <${RED}[0] Initial setup.${YEL}> first.${NC}"
+echo -e "$install_log${NC}"
+echo -e "$install_log${YEL} Bear in mind that if it is the first time you are executing this script,${NC}"
+echo -e "$install_log${YEL} please, to avoid issues select the option <${RED}[0] Initial setup.${YEL}> first.${NC}"
 while true; do
+    echo -e "${GRE} ######################################################################################################${NC}"
     echo -e "$install_log${YEL} What to you want to setup? ${NC}"
     echo -e "$install_log${BLU}    [${RED}0${BLU}] Initial setup.${NC}"
     echo -e "$install_log${BLU}    [${RED}1${BLU}] Nespi4Case setup.${NC}"
@@ -129,11 +138,12 @@ while true; do
         0 ) initial_setup;;
         1 ) case_setup;;
         2 ) docker_setup;;
-        3 ) bash_profiles;;
+        3 ) install_bash_profiles;;
         4 ) unistall;;
         5 ) break;;
         * ) echo -e "$install_log${RED} No valid option. Try again...${NC}";;
     esac
+    echo -e "${GRE} ######################################################################################################${NC}"
 done
-
 echo -e "$install_log${YEL} Thanks for using ${BYEL}Delirio Pi${YEL} scripts.${NC}"
+echo -e "${GRE} ######################################################################################################${NC}"

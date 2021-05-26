@@ -1,0 +1,230 @@
+#!/bin/bash
+
+###############################################################################################
+## CHANGE LOG #################################################################################
+###############################################################################################
+#
+# Actual Version v1.2
+#
+# Change Log v1.2
+#       - Adaptation to the installation scripts.
+#       - Added control of variables that are need it to make this file work.
+#       - Clean the bash profile removing function that already exist on scripts/src/utils/utils.sh
+#       - Update setup function
+#       - Added delirio_checkout function
+#
+# Change Log v1.1
+#       - Added setup function.
+# 
+# Change Log v1.0
+#       - This bash profile is the template for the users of the Raspberry Pi.
+#
+###############################################################################################
+# MANDATORY VARIABLES #########################################################################
+###############################################################################################
+
+: "${BASE_PATH_SCRIPTS:? The variable needs to be defined}"
+: "${GITHUB_DELIRIO:? The variable needs to be defined}"
+
+###############################################################################################
+## ENVIRONMENT VARIABLE #######################################################################
+###############################################################################################
+
+export VERSION=1.2
+export ACTUAL_USER=$(id -un)
+
+bash_logs="${GRE}#::#${YEL}.bash_profile${GRE}#::#${NC}"
+
+###############################################################################################
+## IMPORTED SCRIPTS ###########################################################################
+###############################################################################################
+
+if [[ -z "${COLORS_SH_IMPORTED}" ]]; then
+    . $BASE_PATH_SCRIPTS/utils/colors.sh        # Variables with the colors for the terminal.
+fi
+if [[ -z "${UTILS_SH_IMPORTED}" ]]; then
+    . $BASE_PATH_SCRIPTS/utils/utils.sh        # Variables with the colors for the terminal.
+fi
+
+: "${COLORS_SH_IMPORTED:? The file ./scripts/src/utils/colors.sh needs to be imported}"
+: "${UTILS_SH_IMPORTED:? The file ./scripts/src/utils/utils.sh needs to be defined}"
+
+###############################################################################################
+## MY FUNCTIONS ###############################################################################
+###############################################################################################
+
+function help() {
+    echo -e "${GRE} ######################################################################################################${NC}"
+    echo -e "${bash_logs}${RED} /\  __-.  /\  ___\   /\ \       /\ \   /\  == \   /\ \   /\  __ \      /\  == \ /\ \   "
+    echo -e "${bash_logs}${RED} \ \ \/\ \ \ \  __\   \ \ \____  \ \ \  \ \  __<   \ \ \  \ \ \/\ \     \ \  _-/ \ \ \  "
+    echo -e "${bash_logs}${RED}  \ \____-  \ \_____\  \ \_____\  \ \_\  \ \_\ \_\  \ \_\  \ \_____\     \ \_\    \ \_\ "
+    echo -e "${bash_logs}${RED}   \/____/   \/_____/   \/_____/   \/_/   \/_/ /_/   \/_/   \/_____/      \/_/     \/_/ "
+    echo -e "${GRE} ######################################################################################################${NC}"
+    echo -e "${bash_logs} ${YEL}Version ${BYEL}$VERSION ${YEL}of user ${BYEL}${ACTUAL_USER} ${NC}"
+    echo -e "${GRE} ######################################################################################################${NC}"
+    echo -e "${GRE} ## ${YEL}PROFILE DOCUMENTATION ${GRE}#######################################################################${NC}"
+    echo -e "${GRE} ######################################################################################################${NC}"
+    echo -e "${GRE} #                                                                                                    ${GRE}#${NC}"
+    echo -e "${GRE} # ${YEL}The .bash_profiles contain the next functions:                                                     ${GRE}#${NC}"
+    echo -e "${GRE} #                                                                                                    ${GRE}#${NC}"
+    echo -e "${GRE} #       ${BLU}help / lirio / ana  ${RED}| ${YEL}Those 3 functions print the documentation.                             ${GRE}#${NC}"
+    echo -e "${GRE} #                                                                                                    ${GRE}#${NC}"
+    echo -e "${GRE} #       ${BLU}goto {where}        ${RED}| ${YEL}Function that requires a parameter used as an alias of folders.        ${GRE}#${NC}"
+    echo -e "${GRE} #                           ${RED}| ${YEL}admin   - /home/delirio                                                ${GRE}#${NC}"
+    echo -e "${GRE} #                           ${RED}| ${YEL}lirio   - /home/lirio                                                  ${GRE}#${NC}"
+    echo -e "${GRE} #                           ${RED}| ${YEL}ana     - /home/ahortigu                                               ${GRE}#${NC}"
+    echo -e "${GRE} #                           ${RED}| ${YEL}scripts - $BASE_PATH_SCRIPTS                                         ${GRE}#${NC}"
+    echo -e "${GRE} #                           ${RED}| ${YEL}github  - $GITHUB_PATH                                                      ${GRE}#${NC}"
+    echo -e "${GRE} #                                                                                                    ${GRE}#${NC}"
+    echo -e "${GRE} #       ${BLU}goHelp              ${RED}| ${YEL}Documentation of go function.                                          ${GRE}#${NC}"
+    echo -e "${GRE} #                                                                                                    ${GRE}#${NC}"
+    echo -e "${GRE} #       ${BLU}debugOn {pattern}   ${RED}| ${YEL}Activate the debug for NodeJS application giving value to the          ${GRE}#${NC}"
+    echo -e "${GRE} #                           ${RED}| ${YEL}environment variable DEBUG.                                            ${GRE}#${NC}"
+    echo -e "${GRE} #                           ${RED}| ${YEL}You can provide as a parameter a string used as a pattern to           ${GRE}#${NC}"
+    echo -e "${GRE} #                           ${RED}| ${YEL}print logs on the terminal.                                            ${GRE}#${NC}"
+    echo -e "${GRE} #                           ${RED}| ${YEL}The default value is \"\".                                               ${GRE}#${NC}"
+    echo -e "${GRE} #                                                                                                    ${GRE}#${NC}"
+    echo -e "${GRE} #       ${BLU}debugOff            ${RED}| ${YEL}Deactivate the debug giving to the environmenta variable DEBUG         ${GRE}#${NC}"
+    echo -e "${GRE} #                           ${RED}| ${YEL}a value of \"\".                                                         ${GRE}#${NC}"
+    echo -e "${GRE} #                                                                                                    ${GRE}#${NC}"
+    echo -e "${GRE} #       ${BLU}reloadProfile       ${RED}| ${YEL}Reload the .bash_profile located on the user folder.                   ${GRE}#${NC}"
+    echo -e "${GRE} #                                                                                                    ${GRE}#${NC}"
+    echo -e "${GRE} #       ${BLU}printenvpi          ${RED}| ${YEL}Print the environment variables declared on the .bash_profile.         ${GRE}#${NC}"
+    echo -e "${GRE} #                                                                                                    ${GRE}#${NC}"
+    echo -e "${GRE} #       ${BLU}setup               ${RED}| ${YEL}Fetch on Delirio repository and executes the install.sh script.        ${GRE}#${NC}"
+    echo -e "${GRE} #                                                                                                    ${GRE}#${NC}"
+    echo -e "${GRE} #       ${BLU}delirio_checkout    ${RED}| ${YEL}Request to the user a branch name to execute a checkout on it.         ${GRE}#${NC}"
+    echo -e "${GRE} #                                                                                                    ${GRE}#${NC}"
+    echo -e "${GRE} ######################################################################################################${NC}"
+}
+
+function lirio() {
+    help
+}
+
+function ana() {
+    help
+}
+
+function goto() {
+    if [ $# -eq 0 ]; then 
+        echo -e "${bash_logs}${YEL} go where?${NC}"
+        goHelp
+    elif [ $# -eq 1 ]; then 
+        case "$1" in
+        'admin')
+            echo -e "${bash_logs}${YEL} cd $BASE_PATH_ADMIN ${NC}"
+            cd $BASE_PATH_ADMIN
+        ;;
+        'lirio')
+            echo -e "${bash_logs}${YEL} cd $BASE_PATH_LIRIO ${NC}"
+            cd /home/lirio
+        ;;
+        'ana')
+            echo -e "${bash_logs}${YEL} cd $BASE_PATH_ANA ${NC}"
+            cd /home/ahortigu
+        ;;
+        'scripts')
+            echo -e "${bash_logs}${YEL} cd $BASE_PATH_SCRIPTS ${NC}"
+            cd $BASE_PATH_SCRIPTS
+        ;;
+        'github')
+            echo -e "${bash_logs}${YEL} cd $GITHUB_PATH ${NC}"
+            cd $GITHUB_PATH
+        ;;
+        esac
+    else
+        goHelp
+    fi
+}
+
+function gotoHelp() {
+    echo -e "${bash_logs}${YEL} You can go to....${NC}"
+    echo -e "${bash_logs}${BLU}      admin   - /home/delirio ${NC}"
+    echo -e "${bash_logs}${BLU}      lirio   - /home/lirio ${NC}"
+    echo -e "${bash_logs}${BLU}      ana     - /home/ahortigu ${NC}"
+    echo -e "${bash_logs}${BLU}      scripts - $BASE_PATH_SCRIPTS ${NC}"
+    echo -e "${bash_logs}${BLU}      github  - $GITHUB_PATH ${NC}"
+}
+
+function debugOn() {
+    echo "${bash_logs}${YEL} Activating DEBUG${NC}"
+    if [ -z "$1" ]; then
+       export DEBUG=*
+       printenv DEBUG
+    else
+       local service=$1
+       export DEBUG="$service*"
+       printenv DEBUG
+    fi
+}
+
+function debugOff() {
+   echo -e "${bash_logs}${YEL} Deactivating DEBUG${NC}"
+   unset DEBUG
+}
+
+function reloadProfile() {
+    . /home/$ACTUAL_USER/.bash_profile
+}
+
+function setup() {
+    actualFolder=$(pwd)
+
+    echo -e "${bash_logs}${YEL} Checking existence of $GITHUB_DELIRIO... ${NC}"
+    if [ ! -d "$GITHUB_DELIRIO" ]; then # Take action if $DIR exists.
+        echo -e "${bash_logs}${YEL} Cloning  $GITHUB_DELIRIO_URL ${NC}"
+        cd $GITHUB_PATH
+        git clone $GITHUB_DELIRIO_URL
+        git checkout $GITHUB_DELIRIO_BRANCH
+    else 
+        echo -e "${bash_logs}${YEL} Fetching repository...${NC}"
+        git fetch
+        echo -e "${bash_logs}${YEL} Checking exitence of branch $GITHUB_DELIRIO_BRANCH...${NC}"
+        if [ `git branch --list $GITHUB_DELIRIO_BRANCH` ] ; then
+            echo -e "${bash_logs}${YEL} Checking to branch $branch ${NC}"
+            git checkout $GITHUB_DELIRIO_BRANCH
+            echo -e "${bash_logs}${YEL} Pulling branch $branch ${NC}"
+            git pull
+        else 
+            echo -e "${bash_logs}${YEL} The branch $branch do not exits.${NC}"
+        fi
+    fi
+
+    cd $GITHUB_DELIRIO/script/src/
+    bash install.sh
+
+    cd $actualFolder
+    actualFolder=""
+}
+
+function delirio_checkout() {
+    actualFolder=$(pwd)
+
+    read -p "${bash_logs}${BBLU} Write the name of the branch to use ${NC}" branch
+    cd $GITHUB_DELIRIO
+
+    echo -e "${bash_logs}${YEL} Fetching repository...${NC}"
+    git fetch
+    echo -e "${bash_logs}${YEL} Checking exitence of branch $branch...${NC}"
+    if [ `git branch --list $branch` ] ; then
+        echo -e "${bash_logs}${YEL} Setting the branch $branch on GITHUB_DELIRIO_BRANCH environment variable.${NC}"
+        export GITHUB_DELIRIO_BRANCH=$branch
+        printenvpi | grep GITHUB_DELIRIO_BRANCH
+        echo -e "${bash_logs}${YEL} Checking to branch $branch ${NC}"
+        git checkout $GITHUB_DELIRIO_BRANCH
+        echo -e "${bash_logs}${YEL} Pulling branch $branch ${NC}"
+        git pull
+    else 
+        echo -e "${bash_logs}${YEL} The branch $branch do not exits.${NC}"
+    fi
+    
+    cd $actualFolder
+    actualFolder=""
+}
+
+###############################################################################################
+## START UP ###################################################################################
+###############################################################################################
+
+help

@@ -18,6 +18,8 @@ if [[ -z "${COLORS_SH_IMPORTED}" ]]; then
     . $BASE_PATH_SCRIPTS/utils/colors.sh        # Variables with the colors for the terminal.
 fi
 
+export UTILS_SH_IMPORTED=true;
+
 utils_log="${GRE}#::${YEL}./utils/utils.sh${GRE}::#${NC}"
 
 ###############################################################################################
@@ -84,6 +86,33 @@ function unistall_initial_setup() {
     echo -e "${utils_log}${YEL} Reloading the default profile.${NC}"
     source /etc/profile
     printenv
+}
+
+function install_bash_profiles() {
+    if [[ -z "${GITHUB_DELIRIO}" ]]; then
+        echo -e "$install_log${YEL} Unable to import the .bash_profile files.${NC}"
+        echo -e "$install_log${YEL} Make sure that the environment variables are install from the step ${RED}[0] Initial Setup.${NC}"
+    else
+        actualFolder = "$(pwd)"
+        cd /home
+        for folder in */ ; do
+            echo -e "$install_log${YEL} Copying the file to the user $folder on /home/$folder ...${NC}"
+            cp $GITHUB_DELIRIO/script/src/profiles/.bash_profile_template /home/$folder/.bash_profile
+        done
+        cd $actualFolder
+        actualFolder=""
+    fi
+}
+
+function uninstall_bash_profiles() {
+    actualFolder = "$(pwd)"
+    cd /home
+    for folder in */ ; do
+        echo -e "$install_log${YEL} Removing the file to the user $folder on /home/$folder ...${NC}"
+        rm /home/$folder/.bash_profile
+    done
+    cd $actualFolder
+    actualFolder=""
 }
 
 function printenvpi() {
