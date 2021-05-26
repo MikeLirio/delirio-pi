@@ -8,7 +8,6 @@
 #                                                                                             #
 #   Script to run to deploy all the scripts on Raspberry configuring:                         #
 #       - Copying bash files from the Github repository to Raspberry Pi.                      #
-#       -                                                                                     #
 #                                                                                             #
 ###############################################################################################
 ## ENVIRONMENT VARIABLE #######################################################################
@@ -16,11 +15,14 @@
 
 : "${BASE_PATH_SCRIPTS:= "$(pwd)"}"
 
-if [[ -z "${COLORS_SH_IMPORTED}" ]]; then
-    . $BASE_PATH_SCRIPTS/utils/colors.sh        # Variables with the colors for the terminal.
+if [[ -z "${UTILS_SH_IMPORTED}" ]]; then
+    . $BASE_PATH_SCRIPTS/utils/utils.sh        # Variables with the colors for the terminal.
+    : "${UTILS_SH_IMPORTED:? The variable needs to be defined}" 
 fi
+
 if [[ -z "${COLORS_SH_IMPORTED}" ]]; then
     . $BASE_PATH_SCRIPTS/utils/colors.sh        # Variables with the colors for the terminal.
+    : "${COLORS_SH_IMPORTED:? The variable needs to be defined}" 
 fi
 
 export INSTALL_VERSION=1.0
@@ -113,6 +115,7 @@ function unistall() {
         esac
     done
 }
+
 echo -e "${GRE} ######################################################################################################${NC}"
 echo -e "${install_log}${RED} /\  __-.  /\  ___\   /\ \       /\ \   /\  == \   /\ \   /\  __ \      /\  == \ /\ \   "
 echo -e "${install_log}${RED} \ \ \/\ \ \ \  __\   \ \ \____  \ \ \  \ \  __<   \ \ \  \ \ \/\ \     \ \  _-/ \ \ \  "
