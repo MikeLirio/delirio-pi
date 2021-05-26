@@ -37,24 +37,27 @@ function read_configuration() {
                 echo -e "${utils_log}${YEL} Loading ${BYEL}default${YEL} configuration...${NC}"
                 cp $BASE_PATH_SCRIPTS/config/default.sh /etc/profile.d/delirio.env.sh
                 echo ". /etc/profile.d/delirio.env.sh" >> /etc/bash.bashrc
-                source /etc/profile
-                printenvpi
+                post_configuration_done
                 break
                 ;;
             N | n) 
                 read -p "$(echo -e ${utils_log}${YEL} Write the fullpath with the filename to read it. (Ex. /opt/config/custom.conf))" custom
                 echo -e "${utils_log}${YEL} Loading $custom configuration...${NC}"
                 cp $custom /etc/profile.d/delirio.env.sh
-                echo ". /etc/profile.d/delirio.env.sh" >> /etc/bash.bashrc
-                source /etc/profile
-                printenvpi
+                post_configuration_done
                 break
                 ;;
             * ) echo -e "${utils_log}${RED} No valid option. Try again...${NC}";;
         esac
-        echo -e "${utils_log}${RED} IMPORTANT!! ${CYA}Restart the computer or execute the next command one time you finnish the installation:${NC}"
-        echo -e "${utils_log}${CYA} source /etc/profile${NC}"
     done
+}
+
+function post_configuration_done() {
+    echo ". /etc/profile.d/delirio.env.sh" >> /etc/bash.bashrc
+    source /etc/profile
+    printenvpi
+    echo -e "${utils_log}${RED} IMPORTANT!! ${CYA}Restart the computer or execute the next command one time you finnish the installation:${NC}"
+    echo -e "${utils_log}${CYA} source /etc/profile${NC}"
 }
 
 function move_delirio_system_files() {
