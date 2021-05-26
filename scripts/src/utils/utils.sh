@@ -26,6 +26,8 @@ utils_log="${GRE}#::${YEL}./utils/utils.sh${GRE}::#${NC}"
 
 function read_configuration() {
     while true; do
+        echo -e "${utils_log}${YEL} Making a backup of file /etc/bash.bashrc ${NC}"
+        cp /etc/bash.bashrc $BASE_PATH_SCRIPTS/config/bash.bashrc.backup
         echo -e "${utils_log}${YEL} Do you want to import the default configuration file to the system?${NC}"
         echo "$(cat $BASE_PATH_SCRIPTS/config/default.sh)"
 
@@ -85,6 +87,8 @@ function unistall_initial_setup() {
     rm -rf $BASE_PATH_SCRIPTS/config
     echo -e "${utils_log}${YEL} Removing /etc/profile.d/delirio.env.sh file.${NC}"
     rm /etc/profile.d/delirio.env.sh
+    echo -e "${utils_log}${YEL} Loading backup of /etc/bash.bashrc${NC}"
+    cp $BASE_PATH_SCRIPTS/config/bash.bashrc.backup /etc/bash.bashrc
     echo -e "${utils_log}${YEL} Reloading the default profile.${NC}"
     source /etc/profile
     printenv
