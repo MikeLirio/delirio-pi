@@ -6,5 +6,3 @@ export GITHUB_PATH="/opt/github"
 export GITHUB_DELIRIO="$GITHUB_PATH/delirio-pi"
 export GITHUB_DELIRIO_BRANCH="feature/docker/nginx"
 export GITHUB_DELIRIO_URL="https://github.com/MikeLirio/delirio-pi.git"
-
-export GITHUB_DELIRIO_BASH_PROFILE="$GITHUB_DELIRIO/scripts/profiles/.bash_profile"
