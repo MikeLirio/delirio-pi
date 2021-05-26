@@ -52,6 +52,8 @@ function read_configuration() {
                 ;;
             * ) echo -e "${utils_log}${RED} No valid option. Try again...${NC}";;
         esac
+        echo -e "${utils_log}${RED} IMPORTANT!! ${CYA}Restart the computer or execute the next command one time you finnish the installation:${NC}"
+        echo -e "${utils_log}${CYA} source /etc/profile${NC}"
     done
 }
 
