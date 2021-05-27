@@ -108,7 +108,7 @@ function install_bash_profiles() {
         cd /home
         for folder in */ ; do
             echo -e "$install_log${YEL} Copying the file to the user $folder on /home/$folder ...${NC}"
-            cp $GITHUB_DELIRIO/script/src/profiles/bash_profile_template /home/$folder/.bash_profile
+            cp $GITHUB_DELIRIO/scripts/src/profiles/bash_profile_template /home/$folder/.bash_profile
         done
         cd $actualFolder
         $actualFolder=""
