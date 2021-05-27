@@ -132,32 +132,45 @@ $ chage -M999 delirio
 
 ### Shell Scripts
 
-The folder `./scripts` contains all Shell Scripts use along the **Raspberry Pi**. 
+The folder `./scripts` contains all Shell Scripts use along the **Raspberry Pi**. Inside the folder, it is defined two mail folders, `scritps/src` & `scripts/test`. 
 
-The scrips contained are:
+The **testing** on the bash scripts designed is **pending to be studied and implemented.** 
 
-* `./scripts/profiles/.bash_profile`: File with the functions used by all the users. Some help.
+The main scrips contained are:
 
-* `./scripts/colors.sh`: Contains the declaration of constants than can be use on **echo**'s to print the messages with colors.
-* `./scripts/progress_bar.sh`: Shell script that print on terminal the percentage of progress of any script.
-  * It requires `./scripts/colors.sh`.
+* `./scripts/src/install.sh`: Main bash script to install the system. It provides a user iteration to help on the installation.
+
+  > Raspberry Pi - Installation - v0.1
+  > ![Raspberry Pi - Bash Scripts - v0.1](README.assets/Raspberry Pi - Bash Scripts.jpg)
+
+* `./scripts/src/config/default.sh`: Main environments variables used along all the bash scripts of the Delirio Pi system.
+
+* `./scripts/src/profiles/bash_profile_template`: File with the functions used by all the users. Some help.
+
+* `./scripts/src/utils/colors.sh`: Contains the declaration of constants than can be use on **echo**'s to print the messages with colors.
+
+* `./scripts/src/utils/utils.sh`: Contains the functions used along the installation and the bash_profile files..
+
+* `./scripts/src/utils/progress_bar.sh`: Shell script that print on terminal the percentage of progress of any script.
+
   * How to use it?
     * **progress_bar_start** - Initialize and start the bar with a progress of Zero.
     * **progress_bar *$var***  - Add the number give it as a parameter to the bar. 
     * **progress_bar_end**  - Complete the bar with a value of 100.
     * **progress_bar_demo**  - Demo of a progress bar with 30 60 and 100 values.
-* `./scripts/case`: Folder that contains all the scripts used for the case [Nespi 4 Case](#Nespi 4 Case). There will be explained on the case section.
+
+* `./scripts/src/case`: Folder that contains all the scripts used for the case [Nespi 4 Case](#Nespi 4 Case). There will be explained on the case section.
 
 ### Nespi 4 Case
 
 Initially, we had the idea of using the own script that the company of the case share for free on this [github repository](https://github.com/RetroFlag/retroflag-picase). But they didn't work as expected, so we create our own scripts.
 
-Those scrips are located on  `./scripts/case` :
+Those scrips are located on  `./scripts/src/case` :
 
 * Set Up:
 
-  * `./scripts/case/safe.close.sh`: Script executed before any reboot or shutting down. It controls the correct shutdown of Docker or any behaviour that have to be perform a safety shutdown of the machine.
-  * `./scripts/case/setup.sh`: Script that set the script & service files to control the buttons of the Raspberry Pi.
+  * `./scripts/src/case/safe.close.sh`: Script executed before any reboot or shutting down. It controls the correct shutdown of Docker or any behaviour that have to be perform a safety shutdown of the machine.
+  * `./scripts/src/case/setup.sh`: Script that set the script & service files to control the buttons of the Raspberry Pi.
     * Flags:
       * **-r** : reset; set the files for the reset button.
       * **-s** : shutdown; set the files for the shutdown button.
@@ -167,17 +180,17 @@ Those scrips are located on  `./scripts/case` :
 
 * **Restart** button:
 
-  * `./scripts/case/nespi4case.restart.gpio.py`: Python script that controls the reset button. Each time you press the button, the light will start to blink. To achieve the reboot, you will have to hold it during 3 second.
+  * `./scripts/src/case/nespi4case.restart.gpio.py`: Python script that controls the reset button. Each time you press the button, the light will start to blink. To achieve the reboot, you will have to hold it during 3 second.
     **Before** reboot, this script will executes the script `./scripts/case/safe.close.sh`.
-  * `./scripts/case/nespi4case.restart.service`: Daemon controlled by **systemctl**. Makes that the previous script is executed on the background.
+  * `./scripts/src/case/nespi4case.restart.service`: Daemon controlled by **systemctl**. Makes that the previous script is executed on the background.
 
 * **Shutdown** button:
 
-  * `./scripts/case/nespi4case.shutdown.gpio.py`: Python script that controls the shutdown button.  Now it has an issue that when you turn off the Raspberry Pi, the fan is still working. Is an **issue** pending to fix.
+  * `./scripts/src/case/nespi4case.shutdown.gpio.py`: Python script that controls the shutdown button.  Now it has an issue that when you turn off the Raspberry Pi, the fan is still working. Is an **issue** pending to fix.
 
     **Before** reboot, this script will executes the script `./scripts/case/safe.close.sh`.
 
-  * `./scripts/case/nespi4case.shutdown.service`: Daemon controlled by **systemctl**. Makes that the previous script is executed on the background.
+  * `./scripts/src/case/nespi4case.shutdown.service`: Daemon controlled by **systemctl**. Makes that the previous script is executed on the background.
 
 The scripts `nespi4case.restart.gpio.py` &  will be placed on the path `/opt/delirio`, meanwhile the `nespi4case.restart.service` & `nespi4case.shutdown.service` service files have to be placed on `/etc/systemd/system/`.
 

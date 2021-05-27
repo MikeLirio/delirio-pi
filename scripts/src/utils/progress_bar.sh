@@ -18,11 +18,17 @@
 # REQUIRED SCRIPTS ############################################################################
 ###############################################################################################
 
-# . ./colors.sh        # Variables with the colors for the terminal.
+: "${BASE_PATH_SCRIPTS:? The variable needs to be defined}"
+
+if [[ -z "${COLORS_SH_IMPORTED}" ]]; then
+    . $BASE_PATH_SCRIPTS/colors.sh        # Variables with the colors for the terminal.
+fi
 
 ###############################################################################################
 # VARIABLES ###################################################################################
 ###############################################################################################
+
+export PROGRESS_BAR_SH_IMPORTED=true
 
 PB_PROGRESS=0   # Can have the values 0 to 100.
 PB_BAR=""       # Variable with the characters of the bar.
