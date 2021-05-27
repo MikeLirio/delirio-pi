@@ -25,7 +25,7 @@ if [[ -z "${COLORS_SH_IMPORTED}" ]]; then
     : "${COLORS_SH_IMPORTED:? The variable needs to be defined}" 
 fi
 
-export INSTALL_VERSION=1.0
+export INSTALL_VERSION=1.1
 
 install_log="${GRE}#::${BYEL}./install.sh${GRE}::#${NC}"
 
