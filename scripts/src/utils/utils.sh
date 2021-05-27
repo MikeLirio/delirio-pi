@@ -104,7 +104,7 @@ function install_bash_profiles() {
         echo -e "$install_log${YEL} Unable to import the .bash_profile files.${NC}"
         echo -e "$install_log${YEL} Make sure that the environment variables are install from the step ${RED}[0] Initial Setup.${NC}"
     else
-        $actualFolder="$(pwd)"
+        actualFolder=$(pwd)
         cd /home
         for folder in */ ; do
             echo -e "$install_log${YEL} Copying the file to the user $folder on /home/$folder ...${NC}"
@@ -116,7 +116,7 @@ function install_bash_profiles() {
 }
 
 function uninstall_bash_profiles() {
-    $actualFolder="$(pwd)"
+    actualFolder=$(pwd)
     cd /home
     for folder in */ ; do
         echo -e "$install_log${YEL} Removing the file to the user $folder on /home/$folder ...${NC}"
