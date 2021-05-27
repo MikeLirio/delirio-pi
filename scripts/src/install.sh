@@ -27,7 +27,7 @@ fi
 
 export INSTALL_VERSION=1.0
 
-install_log="${GRE}#::${YEL}./install.sh${GRE}::#${NC}"
+install_log="${GRE}#::${BYEL}./install.sh${GRE}::#${NC}"
 
 ###############################################################################################
 
@@ -35,7 +35,7 @@ function initial_setup() {
     read_configuration
     move_delirio_system_files
     while true; do 
-        read -p "$(echo -e $install_log${YEL} Do you want to configure the Nespi4Case? Y/N)" option
+        read -p "$(echo -e $install_log${BYEL} Do you want to configure the Nespi4Case? Y/N)" option
         case $option in
             Y | y ) case_setup; break;;
             N | n ) break;;
@@ -46,15 +46,15 @@ function initial_setup() {
 
 function case_setup() {
     while true; do
-        echo -e "$install_log${YEL} Which action would you like to perform about ${BYEL}Nespi4Case${YEL} ?${NC}"
-        echo -e "$install_log${BLU}    [${RED}0${BLU}] Install/Update on Raspberry Pi.${NC}"
-        echo -e "$install_log${BLU}    [${RED}1${BLU}] Install Reset button daemon.${NC}"
-        echo -e "$install_log${BLU}    [${RED}2${BLU}] Install Shutdown button daemon.${NC}"
-        echo -e "$install_log${BLU}    [${RED}3${BLU}] Install the safe-close scripts.${NC}"
-        echo -e "$install_log${BLU}    [${RED}4${BLU}] Install/Update all.${NC}"
-        echo -e "$install_log${BLU}    [${RED}5${BLU}] Exit.${NC}"
+        echo -e "$install_log${BYEL} Which action would you like to perform about ${BRED}Nespi4Case${BYEL} ?${NC}"
+        echo -e "$install_log${CYA}    [${RED}0${CYA}] Install/Update on Raspberry Pi.${NC}"
+        echo -e "$install_log${CYA}    [${RED}1${CYA}] Install Reset button daemon.${NC}"
+        echo -e "$install_log${CYA}    [${RED}2${CYA}] Install Shutdown button daemon.${NC}"
+        echo -e "$install_log${CYA}    [${RED}3${CYA}] Install the safe-close scripts.${NC}"
+        echo -e "$install_log${CYA}    [${RED}4${CYA}] Install/Update all.${NC}"
+        echo -e "$install_log${CYA}    [${RED}5${CYA}] Exit.${NC}"
 
-        read -p "$(echo -e $install_log${YEL} Write the number of the option: ${NC})" option
+        read -p "$(echo -e $install_log${BYEL} Write the number of the option: ${NC})" option
         case $option in 
             0 ) move_nespi4case_system_files;;
             1 ) bash $BASE_PATH_SCRIPTS/case/setup.sh -r;;
@@ -71,20 +71,20 @@ function case_setup() {
 }
 
 function docker_setup() {
-    echo -e "$install_log${YEL} docker_setup${NC}"
+    echo -e "$install_log${BYEL} docker_setup${NC}"
 }
 
 function unistall() {
     while true; do
-        echo -e "$install_log${YEL} Which software do you want to remove?${NC}"
-        echo -e "$install_log${BLU}    [${RED}0${BLU}] Initial Setup.${NC}"
-        echo -e "$install_log${BLU}    [${RED}1${BLU}] .bash_profile from users.${NC}"
-        echo -e "$install_log${BLU}    [${RED}2${BLU}] Nespi4Case software.${NC}"
-        echo -e "$install_log${BLU}    [${RED}3${BLU}] Docker.${NC}"
-        echo -e "$install_log${BLU}    [${RED}4${BLU}] All.${NC}"
-        echo -e "$install_log${BLU}    [${RED}5${BLU}] Exit.${NC}"
+        echo -e "$install_log${BYEL} Which software do you want to remove?${NC}"
+        echo -e "$install_log${CYA}    [${RED}0${CYA}] Initial Setup.${NC}"
+        echo -e "$install_log${CYA}    [${RED}1${CYA}] .bash_profile from users.${NC}"
+        echo -e "$install_log${CYA}    [${RED}2${CYA}] Nespi4Case software.${NC}"
+        echo -e "$install_log${CYA}    [${RED}3${CYA}] Docker.${NC}"
+        echo -e "$install_log${CYA}    [${RED}4${CYA}] All.${NC}"
+        echo -e "$install_log${CYA}    [${RED}5${CYA}] Exit.${NC}"
 
-        read -p "$(echo -e $install_log${YEL} Write the number of the option: ${NC})" option
+        read -p "$(echo -e $install_log${BYEL} Write the number of the option: ${NC})" option
         case $option in 
             0 )  
                 unistall_initial_setup
@@ -122,21 +122,21 @@ echo -e "${install_log}${RED} \ \ \/\ \ \ \  __\   \ \ \____  \ \ \  \ \  __<   
 echo -e "${install_log}${RED}  \ \____-  \ \_____\  \ \_____\  \ \_\  \ \_\ \_\  \ \_\  \ \_____\     \ \_\    \ \_\ "
 echo -e "${install_log}${RED}   \/____/   \/_____/   \/_____/   \/_/   \/_/ /_/   \/_/   \/_____/      \/_/     \/_/ "
 echo -e "${GRE} ######################################################################################################${NC}"
-echo -e "$install_log${YEL} Setting the ${BYEL}Delirio Pi${YEL} configuration. Thanks for downloading!${NC}"
+echo -e "$install_log${BYEL} Setting the ${BRED}Delirio Pi${BYEL} configuration. Thanks for downloading!${NC}"
 echo -e "$install_log${NC}"
-echo -e "$install_log${YEL} Bear in mind that if it is the first time you are executing this script,${NC}"
-echo -e "$install_log${YEL} please, to avoid issues select the option <${RED}[0] Initial setup.${YEL}> first.${NC}"
+echo -e "$install_log${BYEL} Bear in mind that if it is the first time you are executing this script,${NC}"
+echo -e "$install_log${BYEL} please, to avoid issues select the option <${RED}[0] Initial setup.${BYEL}> first.${NC}"
 while true; do
     echo -e "${GRE} ######################################################################################################${NC}"
-    echo -e "$install_log${YEL} What to you want to setup? ${NC}"
-    echo -e "$install_log${BLU}    [${RED}0${BLU}] Initial setup.${NC}"
-    echo -e "$install_log${BLU}    [${RED}1${BLU}] Nespi4Case setup.${NC}"
-    echo -e "$install_log${BLU}    [${RED}2${BLU}] Docker.${NC}"
-    echo -e "$install_log${BLU}    [${RED}3${BLU}] Install/Update .bash_profile files.${NC}"
-    echo -e "$install_log${BLU}    [${RED}4${BLU}] Uninstall.${NC}"
-    echo -e "$install_log${BLU}    [${RED}5${BLU}] Exit.${NC}"
+    echo -e "$install_log${BYEL} What to you want to setup? ${NC}"
+    echo -e "$install_log${CYA}    [${RED}0${CYA}] Initial setup.${NC}"
+    echo -e "$install_log${CYA}    [${RED}1${CYA}] Nespi4Case setup.${NC}"
+    echo -e "$install_log${CYA}    [${RED}2${CYA}] Docker.${NC}"
+    echo -e "$install_log${CYA}    [${RED}3${CYA}] Install/Update .bash_profile files.${NC}"
+    echo -e "$install_log${CYA}    [${RED}4${CYA}] Uninstall.${NC}"
+    echo -e "$install_log${CYA}    [${RED}5${CYA}] Exit.${NC}"
 
-    read -p "$(echo -e $install_log${YEL} Write the number of the option: ${NC})" option
+    read -p "$(echo -e $install_log${BYEL} Write the number of the option: ${NC})" option
     case $option in 
         0 ) initial_setup;;
         1 ) case_setup;;
@@ -148,5 +148,5 @@ while true; do
     esac
     echo -e "${GRE} ######################################################################################################${NC}"
 done
-echo -e "$install_log${YEL} Thanks for using ${BYEL}Delirio Pi${YEL} scripts.${NC}"
+echo -e "$install_log${BYEL} Thanks for using ${BYEL}Delirio Pi${BYEL} scripts.${NC}"
 echo -e "${GRE} ######################################################################################################${NC}"

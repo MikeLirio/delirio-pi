@@ -56,8 +56,8 @@ function post_configuration_done() {
     echo ". /etc/profile.d/delirio.env.sh" >> /etc/bash.bashrc
     source /etc/profile
     printenvpi
-    echo -e "${utils_log}${RED} IMPORTANT!! ${CYA}Restart the computer or execute the next command one time you finnish the installation:${NC}"
-    echo -e "${utils_log}${CYA} source /etc/profile${NC}"
+    echo -e "${utils_log}${ON_IRED} IMPORTANT!! Restart the computer or execute the next command one time you finnish the installation:${NC}"
+    echo -e "${utils_log}${ON_IRED} source /etc/profile${NC}"
 }
 
 function move_delirio_system_files() {
