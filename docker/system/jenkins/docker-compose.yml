@@ -1,0 +1,12 @@
+version: '3.9'
+
+services:
+  jenkins:
+    container_name: delirio_jenkins
+    image: 'jenkins/jenkins:latest'
+    # WIP Reverse proxy with nginx
+    restart:
+      always
+
+networks: 
+  delirio_network:

@@ -1,0 +1,25 @@
+version: '3.9'
+
+services:
+  # https://github.com/klo2k/nexus3-docker/blob/master/Dockerfile
+  repository:
+    image: 'sonatype/nexus3:3.30.0'
+    container_name: delirio_nexus
+    ports:
+      - "8081:8081"
+    restart:
+      always
+
+  # https://docs.sonarqube.org/latest/setup/get-started-2-minutes/
+  sonar:
+    image: 'sonarqube:community'
+    container_name: delirio_sonarqube
+    ports:
+      - "9000:9000"
+    environment:
+      - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
+    restart:
+      always
+
+networks: 
+  delirio_network:
