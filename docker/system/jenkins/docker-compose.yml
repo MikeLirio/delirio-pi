@@ -4,6 +4,8 @@ services:
   jenkins:
     container_name: delirio_jenkins
     image: 'jenkins/jenkins:latest'
+    networks:
+      - proxynet
     # WIP Reverse proxy with nginx
     restart:
       always

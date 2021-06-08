@@ -7,13 +7,16 @@ services:
     image: 'nginx:1.19'
     # Raspberry Pi
     # image: 'arm64v8/nginx:1.19'
+    networks:
+      - proxy
+    ports:
+      - "80:80"
     volumes:
       - ./nginx/pages:/usr/share/nginx/html:ro
       - ./nginx/conf.d:/etc/nginx/conf.d:ro
-    ports:
-      - "80:80"
     restart:
       always
 
 networks: 
-  delirio_network:
+  proxy:
+    name: delirio_network

@@ -5,6 +5,8 @@ services:
   repository:
     image: 'sonatype/nexus3:3.30.0'
     container_name: delirio_nexus
+    networks:
+      - proxy
     ports:
       - "8081:8081"
     restart:
@@ -14,12 +16,20 @@ services:
   sonar:
     image: 'sonarqube:community'
     container_name: delirio_sonarqube
+    networks:
+      - proxy
     ports:
       - "9000:9000"
+    volumes:
+      - './sonar/conf/delirio.sonar.properties:/opt/sonarqube/conf/sonar.properties'
+    #   - './sonar/data:/opt/sonarqube/data'
+    #   - './sonar/logs:/opt/sonarqube/logs'
+    #   - './sonar/extensions:/opt/sonarqube/extensions'
     environment:
       - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
     restart:
       always
 
 networks: 
-  delirio_network:
+  proxy:
+    name: delirio_network

@@ -20,29 +20,51 @@
 # IMPORTED SCRIPTS ############################################################################
 ###############################################################################################
 
-. $BASE_PATH_SCRIPTS/colors.sh                        # Variables with the colors for the terminal.
-. $BASE_PATH_SCRIPTS/global_environment_variables.sh  # All the environment variables declared along the scripts
-. $BASE_PATH_SCRIPTS/progress_bar.sh                  # Progress bar.
+. $BASE_PATH_SCRIPTS/utils/colors.sh                        # Variables with the colors for the terminal.
+
+. $BASE_PATH_SCRIPTS/docker/jenkins.sh
+. $BASE_PATH_SCRIPTS/docker/nexus.sh
+. $BASE_PATH_SCRIPTS/docker/nginx.sh
+. $BASE_PATH_SCRIPTS/docker/pi-hole.sh
+. $BASE_PATH_SCRIPTS/docker/jenkins.sh
+
+docker_log="${GRE}#::${BYEL}./docker/setup.sh${GRE}::#${NC}"
 
 ###############################################################################################
 
-progress_bar_start
+function setup_docker() {
+    while true; then
+        echo -e "${GRE} ######################################################################################################${NC}"
+        echo -e "${docker_log}${BYEL} Which action would you like to perform? ${NC}"
+        echo -e "${docker_log}${CYA}    [${RED}0${CYA}] Initial/Update Setup.${NC}"
+        echo -e "${docker_log}${CYA}    [${RED}1${CYA}] Jenkins.${NC}"
+        echo -e "${docker_log}${CYA}    [${RED}2${CYA}] Nginx.${NC}"
+        echo -e "${docker_log}${CYA}    [${RED}3${CYA}] Nexus.${NC}"
+        echo -e "${docker_log}${CYA}    [${RED}4${CYA}] Pi-Hole.${NC}"
+        echo -e "${docker_log}${CYA}    [${RED}5${CYA}] Sonar.${NC}"
+        echo -e "${docker_log}${CYA}    [${RED}6${CYA}] All.${NC}"
+        echo -e "${docker_log}${CYA}    [${RED}7${CYA}] Unistall.${NC}"
+        echo -e "${docker_log}${CYA}    [${RED}8${CYA}] Exit.${NC}"
 
-echo -e "${GRE}#::docker/setup.sh::# ${YEL}Creating the volumes for Docker.${NC}"
-. $BASE_PATH_SCRIPTS/docker/setup/volumes.sh
+        read -p "$(echo -e $docker_log${BYEL} Write the number of the option: ${NC})" option
+    case $option in 
+        0 ) docker_initial_setup;;
+        1 ) case_setup;;
+        2 ) docker_setup;;
+        3 ) install_bash_profiles;;
+        4 ) unistall;;
+        5 ) unistall;;
+        6 ) unistall;;
+        7 ) break;;
+        7 ) break;;
+        * ) echo -e "$docker_log${RED} No valid option. Try again...${NC}";;
+    esac
+    done
+}
 
-progress_bar 20
-
-. $BASE_PATH_SCRIPTS/docker/setup/nginx.sh
-progress_bar 10
-. $BASE_PATH_SCRIPTS/docker/setup/nexus.sh
-progress_bar 10
-. $BASE_PATH_SCRIPTS/docker/setup/jenkins.sh
-progress_bar 10
-. $BASE_PATH_SCRIPTS/docker/setup/pi-hole.sh
-progress_bar 10
-. $BASE_PATH_SCRIPTS/docker/setup/sonar.sh
-progress_bar 10
-
-echo -e "${GRE}#::docker/setup.sh::# ${YEL}Done ${RED}<3${NC}"
-progress_bar_end
+echo -e "${GRE} ######################################################################################################${NC}"
+echo -e "${docker_log}${YEL}Welcome to the Docker setup on ${BRED}Delirio Pi${BYEL}.${NC}"
+echo -e "${GRE} ######################################################################################################${NC}"
+setup_docker
+echo -e "${docker_log}${YEL}Leaving the Docker installation ${RED}<3${NC}"
+echo -e "${GRE} ######################################################################################################${NC}"
