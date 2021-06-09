@@ -11,5 +11,4 @@ RUN apt-get update \
 
 RUN cd /opt/github && \
     git clone https://github.com/MikeLirio/delirio-pi.git && \
-    cd delirio-pi && \
-    git checkout feature/docker/nginx 
+    cd delirio-pi

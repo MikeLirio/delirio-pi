@@ -1,0 +1,33 @@
+version: '3.9'
+
+services:
+  pihole:
+    container_name: delirio_pihole
+    image: pihole/pihole:latest
+    networks:
+      - proxy
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "67:67/udp"
+      - "82:82/tcp"
+    environment:
+      ADMIN_EMAIL: michaelirio@gmail.com
+      TZ: 'Europe/London' # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+      WEBPASSWORD: 060ojetecalor
+      # WEBPASSWORD: 'set a secure password here or it will be random'
+      WEB_PORT: 82
+      ServerIP: 127.0.0.1
+    # Volumes store your data between container upgrades
+    volumes:
+      - './pi-hole/etc-pihole/:/etc/pihole/'
+      - './pi-hole/etc-dnsmasq.d/:/etc/dnsmasq.d/'
+    # Recommended but not required (DHCP needs NET_ADMIN)
+    #   https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+
+networks: 
+  proxy:
+    name: delirio_network

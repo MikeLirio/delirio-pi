@@ -10,10 +10,11 @@
 # IMPORTED SCRIPTS ############################################################################
 ###############################################################################################
 
-. $BASE_PATH_SCRIPTS/colors.sh                        # Variables with the colors for the terminal.
-. $BASE_PATH_SCRIPTS/global_environment_variables.sh  # All the environment variables declared along the scripts
+. $BASE_PATH_SCRIPTS/utils/colors.sh                        # Variables with the colors for the terminal.
+
+docker_jenkins_log="${GRE}#::${BYEL}./docker/setup/jenkins.sh${GRE}::#${NC}"
 
 ###############################################################################################
 
-echo -e "${GRE}#::docker/setup/jenkins.sh::# ${YEL}Setting up Jenkins...${NC}"
-echo -e "${GRE}#::docker/setup/jenkins.sh::# ${YEL}Nothing to do ${RED}<3${NC}"
+echo -e "${docker_jenkins_log} ${YEL}Setting up Jenkins...${NC}"
+echo -e "${docker_jenkins_log} ${YEL}Nothing to do ${RED}<3${NC}"

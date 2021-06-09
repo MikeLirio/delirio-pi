@@ -1,0 +1,22 @@
+version: '3.9'
+
+services:
+  webserver:
+    container_name: delirio_nginx
+    # x64 arch
+    image: 'nginx:1.19'
+    # Raspberry Pi
+    # image: 'arm64v8/nginx:1.19'
+    networks:
+      - proxy
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/pages:/usr/share/nginx/html:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+    restart:
+      always
+
+networks: 
+  proxy:
+    name: delirio_network
