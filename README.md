@@ -346,6 +346,12 @@ Finally, just add users on **Samba**;
 $ sudo smbpasswd -a {username}
 ```
 
+## CyberGhost VPN Configuration
+
+We follow the next guide to configure the VPN on the Raspberry Pi 4 as now CyberGhost is not giving support to Ubuntu 20.10.
+
+* https://support.cyberghostvpn.com/hc/en-us/articles/213270689-How-to-Set-Up-OpenVPN-on-Raspberry-Pi-Raspbian-RaspBMC-
+
 ## Guides to Follow and information
 
 * [Difference between Ubuntu Server vs Ubuntu Desktop](https://www.makeuseof.com/tag/difference-ubuntu-desktop-ubuntu-server/)
