@@ -288,6 +288,64 @@ The frontend will be developed in other repository, [react-delirio-pi](https://g
 
 The backend is still on pending what to do.
 
+## Samba
+
+First, we will need to have it on the system. For that, we have to execute the next command lines:
+
+```bash
+$ sudo apt update
+$ sudo apt install samba -y
+```
+
+We can check if it works getting the version of looking if the service is running:
+
+```bash
+$ smbd --version
+```
+
+```bash
+$ systemctl status smbd
+```
+
+in case of being down, you can turning on with the next command
+
+```bash
+$ systemctl start smbd
+```
+
+The Share folders that we are going to share, will be located on `/sharefolder` path.
+
+Next step, configure **samba**. To do this, we have to edit the file `/etc/samba/smb.conf`. This is our final configuration:
+
+```properties
+[...]
+
+	# We add in this line the workgroud defined in our Windows computers
+	workgroup = WORKGROUP
+   
+[...]
+
+# And this block has been added at the end of the file
+[delirio-pi]
+    comment = Samba on Ubuntu 20.04 in Raspberry Pi 4
+    path = /sharefolder
+    read only = no
+    browsable = yes
+```
+
+To apply the changes and update the firewall rules. To do that, follow the next commands:
+
+```bash
+$ sudo service smbd restart
+$ sudo ufw allow samba
+```
+
+Finally, just add users on **Samba**;
+
+```bash
+$ sudo smbpasswd -a {username}
+```
+
 ## Guides to Follow and information
 
 * [Difference between Ubuntu Server vs Ubuntu Desktop](https://www.makeuseof.com/tag/difference-ubuntu-desktop-ubuntu-server/)

@@ -1,0 +1,18 @@
+# Files to ignore from Docker
+
+# Nginx 
+
+# Deluge
+docker/system/apps/deluge/config/*
+docker/system/apps/deluge/downloads/*
+
+# Pi-Hole
+docker/system/apps/pi-hole/etc-pihole/*
+docker/system/apps/pi-hole/etc-dnsmasq.d/*
+
+# Nexus 3
+docker/system/devops/nexus/data/*
+
+# Sonarqube
+docker/system/devops/sonar/data/*
+docker/system/devops/sonar/logs/*
