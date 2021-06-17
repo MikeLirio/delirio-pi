@@ -13,11 +13,11 @@ services:
       - "82:82/tcp"
     environment:
       ADMIN_EMAIL: michaelirio@gmail.com
-      TZ: 'Europe/London' # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+      TZ: ${DELIRIO_TIMEZONE} # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
       WEBPASSWORD: 060ojetecalor
       # WEBPASSWORD: 'set a secure password here or it will be random'
       WEB_PORT: 82
-      ServerIP: 127.0.0.1
+      ServerIP: ${DELIRIO_HOST}
     # Volumes store your data between container upgrades
     volumes:
       - './pi-hole/etc-pihole/:/etc/pihole/'
@@ -26,6 +26,25 @@ services:
     #   https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
     cap_add:
       - NET_ADMIN
+    restart: unless-stopped
+
+  deluge:
+    container_name: delirio_deluge
+    image: linuxserver/deluge:latest
+    networks:
+      - proxy
+    ports:
+      - "8112:8112"
+      - "6881:6881/tcp"
+      - "6881:6881/udp"
+    volumes:
+      - './deluge/config:/config'
+      - './deluge/downloads:/downloads'
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: ${DELIRIO_TIMEZONE}
+      DELUGE_LOGLEVEL: error #optional
     restart: unless-stopped
 
 networks: 
