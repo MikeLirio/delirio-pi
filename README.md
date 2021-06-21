@@ -208,75 +208,99 @@ $ sudo systemctl start nespi4case.service
 $ systemctl list-unit-files
 ```
 
-### DevOps Side
+### DevOps Side - Docker
 
-#### Docker
+#### Docker-Compose
 
 We will be using this repository as a base of our environment. All the docker images used will be described below.
 
-The `docker-compose.yml` file is located on `delirio-pi\docker\devops-environment\docker-compose.yml`.
+The system will be implemented in 4 different docker compose. 
+
+![Raspberry Pi-Arquitecture](README.assets/Raspberry Pi-Arquitecture.png)
+
+* `delirio-pi\docker\system\apps`: 
+  * images on the docker-compose: **[Deluge](https://hub.docker.com/r/linuxserver/deluge), [Pi-Hole](https://hub.docker.com/r/pihole/pihole)**
+  * It will contain all custom images build by us.
+* `delirio-pi\docker\system\devops`:
+  * images on the docker-compose: **[Nexus3](https://hub.docker.com/r/sonatype/nexus3), [Sonarqube](https://hub.docker.com/_/sonarqube)** 
+  * The problem founded is those images are not build on arch arm64, used by Raspberry Pi 4. As a future project, **I will have to build them manually**.
+* `delirio-pi\docker\system\jenkins`:
+  * images on the docker-compose: **[Jenkins](https://hub.docker.com/_/jenkins)** 
+  * The problem founded is those images are not build on arch arm64, used by Raspberry Pi 4. As a future project, **I will have to build them manually**.
+* `delirio-pi\docker\system\webserver`:
+  * images on the docker-compose: **[Nginx](https://hub.docker.com/_/nginx)** 
 
 The three of development for docker images is:
 
 ```
-+ repository root path
+Repository - root path
 |
 +---- scripts
 |
 +---- docker
 	|
-	+---- environment
-		|
-		+---- develop
-        	|
-        	+---- backend
-        	+---- frontend
-        	----- docker-compose.yml
-        +---- devops
-        	|
-        	+---- jenkins
-        	+---- nexus
-        	+---- sonar
-        	----- docker-compose.yml
+	+---- develop
+    |    |
+    |    +---- backend
+    |    +---- frontend
+    |    ----- docker-compose.yml
+    +---- system
+    |    |
+    |    +---- apps
+    |    |		|
+    |    |		+---- deluge
+	|    |    	+---- pi-hole
+	|    |    	----- docker-compose.yml
+    |    +---- devops
+    |	 |		+---- nexus
+    |    |			----- Dockerfile | for image for arm64 arch
+	|    |    	+---- sonar
+	|    |    		----- Dockerfile | for image for arm64 arch
+	|    |    	----- docker-compose.yml
+    |    +---- jenkins
+    |    |		----- Dockerfile | for image for arm64 arch
+    |    |		----- docker-compose.yml
+    |    +---- webserver
+    |	 |		+---- nginx
+    |	 |		|		+---- conf
+    |	 |		|		|		----- delirio.conf
+    |	 |		|		+---- pages
+    |	 |		|		|		----- html files
 ```
 
-#### Jenkins
+#### Images
+
+##### Jenkins
 
 We will build a docker image of [Jenkins](https://www.jenkins.io/) software as nowadays there is not  one available for Raspberry Pi architecture.
 
-The **main branch** of development of [Jenkins](https://www.jenkins.io/) images is `feature/docker_jenkins`.
-
 The **tags** will be saved with the structure of `docker\jenkins\{number version}` for now.
 
-The **path to the Dockerfile** is `delirio-pi\docker\environment\devops\jenkins\Dockerfile`.
+The **path to the Dockerfile** is `delirio-pi\docker\system\jenkins\Dockerfile`.
 
-#### Sonar queue
-
-The **main branch** of development of [Sonar](https://www.sonarqube.org/) is `feature/docker_sonar`.
+##### Sonar queue
 
 The **tags** will be saved with the structure of `docker\sonar\{number version}` for now.
 
-The **path to the Dockerfile** is `delirio-pi\docker\environment\devops\sonar\Dockerfile`.
+The **path to the Dockerfile** is `delirio-pi\docker\system\devops\sonar\Dockerfile`.
 
-#### Nexus 3
-
-The **main branch** of development of [Nexus](https://www.sonatype.com/nexus/repository-oss-download) is `feature/docker_nexus`.
+##### Nexus 3
 
 The **tags** will be saved with the structure of `docker\nexus\{number version}` for now.
 
-The **path to the Dockerfile** is `delirio-pi\docker\environment\devops\nexus\Dockerfile`.
+The **path to the Dockerfile** is `delirio-pi\docker\system\devops\nexus\Dockerfile`.
 
-#### Nginx
-
-The **main branch** of development of [Nexus](https://www.sonatype.com/nexus/repository-oss-download) is `feature/docker_nginx`.
+##### Nginx
 
 The **tags** will be saved with the structure of `docker\nginx\{number version}` for now.
 
-#### Develop
+On the folder`delirio-pi\docker\system\webserver\nginx` will contain the config file and all the HTML use by now. 
+
+Is configured as a reverse proxy by all the images.
+
+##### Develop
 
 To do the development more easier, we will develop docker images with all the need it configuration to make sure that the environment where you are developing is the most equal to production as possible.
-
-The **main branch** of development for this configurations will be  is `feature/docker_develop`.
 
 The **tags** will be saved with the structure of `docker\develop\{number version}` for now.
 
@@ -287,6 +311,46 @@ The frontend will be developed in other repository, [react-delirio-pi](https://g
 ##### Backend
 
 The backend is still on pending what to do.
+
+#### Volumes
+
+##### Apps
+
+Deluge
+
+* Created on docker:
+  * DELIRIO_DELUGE_CONF 
+* No need of folders to be mount.
+
+Pi-Hole
+
+* Created on docker:
+  * DELIRIO_PIHOLE
+  * DELIRIO_PIHOLE_DNSMASQD
+* No need of folders to be mount.
+
+##### DevOps
+
+Nexus 3
+
+* Pending to analyse properly.
+
+Sonarqube
+
+* Pending to analyse properly.
+
+##### Jenkins
+
+* None to be created inside Docker.
+
+##### Webserver
+
+Nginx
+
+* None to be created inside Docker.
+* Folders linked on the docker-compose:
+  * delirio-pi\docker\system\webserver\nginx\pages **linked to** /usr/share/nginx/html
+  *  delirio-pi\docker\system\webserver\nginx\conf-d linked to /etc/nginx/conf.d
 
 ## Samba
 
