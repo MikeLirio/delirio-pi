@@ -352,6 +352,48 @@ We follow the next guide to configure the VPN on the Raspberry Pi 4 as now Cyber
 
 * https://support.cyberghostvpn.com/hc/en-us/articles/213270689-How-to-Set-Up-OpenVPN-on-Raspberry-Pi-Raspbian-RaspBMC-
 
+## OpenVPN and Docker
+
+After configure the VPN with OpenVPN I started to have some issues with docker. Basically, I wasn't able to create networks on docker. To fix this issue, I follow this post on StackOverflow, and fixed it <3
+
+* https://stackoverflow.com/questions/45692255/how-make-openvpn-work-with-docker
+
+### Solution (TL;DR;)
+
+Create `/etc/openvpn/fix-routes.sh` script with following contents:
+
+```
+#!/bin/sh
+
+echo "Adding default route to $route_vpn_gateway with /0 mask..."
+ip route add default via $route_vpn_gateway
+
+echo "Removing /1 routes..."
+ip route del 0.0.0.0/1 via $route_vpn_gateway
+ip route del 128.0.0.0/1 via $route_vpn_gateway
+```
+
+Add executable bit to the file: `chmod o+x /etc/openvpn/fix-routes.sh`. Change owner of this file to root: `chown root:root  /etc/openvpn/fix-routes.sh`.
+
+Add to your config following two lines:
+
+```
+ script-security 2
+ route-up  /etc/openvpn/fix-routes.sh
+```
+
+### Explanation
+
+OpenVPN adds routes that for following networks: `0.0.0.0/1` and `128.0.0.0/1` (these routes cover entire IP range), and docker can't find range of IP addresses to create it's own private network.
+
+You need to add a default route (to route everything through OpenVPN ) and disable these two specific routes. `fix-routes` script does that.
+
+This script is called after OpenVPN adds its own routes. To execute scripts you'll need to set `script-security` to `2` which allows execution of bash scripts from OpenVPN context.
+
+### Thanks
+
+I'd like to thank [author of this comment on GitHub](https://github.com/docker/libnetwork/issues/779#issuecomment-231727303), also thanks to [OpenVPN  support](https://www.ovpn.com/).
+
 ## Guides to Follow and information
 
 * [Difference between Ubuntu Server vs Ubuntu Desktop](https://www.makeuseof.com/tag/difference-ubuntu-desktop-ubuntu-server/)
