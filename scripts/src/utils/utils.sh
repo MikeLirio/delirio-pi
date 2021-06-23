@@ -103,6 +103,7 @@ function docker_folder() {
                 case $option_erase in 
                     Y | y ) 
                         rm -r ${DOCKER_PATH}/*
+                        break
                         ;;
                     N | n) break;;
                     * ) echo -e "${utils_log}${RED} No valid option. Try again...${NC}";;

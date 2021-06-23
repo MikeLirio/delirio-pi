@@ -70,11 +70,15 @@ function help() {
     echo -e "${GRE} #       ${BLU}help / lirio / ana  ${RED}| ${YEL}Those 3 functions print the documentation.                             ${GRE}#${NC}"
     echo -e "${GRE} #                                                                                                    ${GRE}#${NC}"
     echo -e "${GRE} #       ${BLU}goto {where}        ${RED}| ${YEL}Function that requires a parameter used as an alias of folders.        ${GRE}#${NC}"
-    echo -e "${GRE} #                           ${RED}| ${YEL}admin   - /home/delirio                                                ${GRE}#${NC}"
-    echo -e "${GRE} #                           ${RED}| ${YEL}lirio   - /home/lirio                                                  ${GRE}#${NC}"
-    echo -e "${GRE} #                           ${RED}| ${YEL}ana     - /home/ahortigu                                               ${GRE}#${NC}"
-    echo -e "${GRE} #                           ${RED}| ${YEL}scripts - $BASE_PATH_SCRIPTS                                         ${GRE}#${NC}"
-    echo -e "${GRE} #                           ${RED}| ${YEL}github  - $GITHUB_PATH                                                      ${GRE}#${NC}"
+    echo -e "${GRE} #                           ${RED}| ${YEL}admin       - /home/delirio                                                ${GRE}#${NC}"
+    echo -e "${GRE} #                           ${RED}| ${YEL}lirio       - /home/lirio                                                  ${GRE}#${NC}"
+    echo -e "${GRE} #                           ${RED}| ${YEL}ana         - /home/ahortigu                                               ${GRE}#${NC}"
+    echo -e "${GRE} #                           ${RED}| ${YEL}scripts     - $BASE_PATH_SCRIPTS                                                 ${GRE}#${NC}"
+    echo -e "${GRE} #                           ${RED}| ${YEL}github      - $GITHUB_PATH                                                  ${GRE}#${NC}"
+    echo -e "${GRE} #                           ${RED}| ${YEL}delirio     - $GITHUB_DELIRIO                                              ${GRE}#${NC}"
+    echo -e "${GRE} #                           ${RED}| ${YEL}docker      - $DOCKER_PATH                                           ${GRE}#${NC}"
+    echo -e "${GRE} #                           ${RED}| ${YEL}downloads   - $DELIRIO_DELUGE_DOWNLOADS                                       ${GRE}#${NC}"
+    echo -e "${GRE} #                           ${RED}| ${YEL}sharefolder - /sharefolder                                                 ${GRE}#${NC}"
     echo -e "${GRE} #                                                                                                    ${GRE}#${NC}"
     echo -e "${GRE} #       ${BLU}goHelp              ${RED}| ${YEL}Documentation of go function.                                          ${GRE}#${NC}"
     echo -e "${GRE} #                                                                                                    ${GRE}#${NC}"
@@ -132,6 +136,22 @@ function goto() {
             echo -e "${bash_logs}${YEL} cd $GITHUB_PATH ${NC}"
             cd $GITHUB_PATH
         ;;
+        'delirio')
+            echo -e "${bash_logs}${YEL} cd $GITHUB_PATH ${NC}"
+            cd $GITHUB_PATH
+        ;;
+        'docker')
+            echo -e "${bash_logs}${YEL} cd $DOCKER_PATH ${NC}"
+            cd $DOCKER_PATH
+        ;;
+        'downloads')
+            echo -e "${bash_logs}${YEL} cd $DELIRIO_DELUGE_DOWNLOADS ${NC}"
+            cd $DELIRIO_DELUGE_DOWNLOADS
+        ;;
+        'sharefolder')
+            echo -e "${bash_logs}${YEL} cd $DELIRIO_DELUGE_DOWNLOADS ${NC}"
+            cd $DELIRIO_DELUGE_DOWNLOADS
+        ;;
         esac
     else
         goHelp
@@ -140,11 +160,15 @@ function goto() {
 
 function gotoHelp() {
     echo -e "${bash_logs}${YEL} You can go to....${NC}"
-    echo -e "${bash_logs}${BLU}      admin   - /home/delirio ${NC}"
-    echo -e "${bash_logs}${BLU}      lirio   - /home/lirio ${NC}"
-    echo -e "${bash_logs}${BLU}      ana     - /home/ahortigu ${NC}"
-    echo -e "${bash_logs}${BLU}      scripts - $BASE_PATH_SCRIPTS ${NC}"
-    echo -e "${bash_logs}${BLU}      github  - $GITHUB_PATH ${NC}"
+    echo -e "${bash_logs}${BLU}      admin        - /home/delirio ${NC}"
+    echo -e "${bash_logs}${BLU}      lirio        - /home/lirio ${NC}"
+    echo -e "${bash_logs}${BLU}      ana          - /home/ahortigu ${NC}"
+    echo -e "${bash_logs}${BLU}      scripts      - $BASE_PATH_SCRIPTS ${NC}"
+    echo -e "${bash_logs}${BLU}      github       - $GITHUB_PATH ${NC}"
+    echo -e "${bash_logs}${BLU}      delirio      - $GITHUB_DELIRIO ${NC}"
+    echo -e "${bash_logs}${BLU}      docker       - $DOCKER_PATH ${NC}"
+    echo -e "${bash_logs}${BLU}      downloads    - $DELIRIO_DELUGE_DOWNLOADS ${NC}"
+    echo -e "${bash_logs}${BLU}      sharefolder  - /sharefolder ${NC}"
 }
 
 function debugOn() {
