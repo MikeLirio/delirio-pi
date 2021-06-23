@@ -136,35 +136,30 @@ echo -e "$install_log${BYEL} Setting the ${BRED}Delirio Pi${BYEL} configuration.
 echo -e "$install_log${NC}"
 echo -e "$install_log${BYEL} Bear in mind that if it is the first time you are executing this script,${NC}"
 echo -e "$install_log${BYEL} please, to avoid issues select the option <${RED}[0] Initial setup.${BYEL}> first.${NC}"
-if [ "$EUID" -ne 0 ]; then 
-    echo -e "$install_log${BYEL} Please, run this script as root. ${NC}"
-    exit
-else
-    while true; do
-        echo -e "${GRE} ######################################################################################################${NC}"
-        echo -e "$install_log${BYEL} What to you want to setup? ${NC}"
-        echo -e "$install_log${CYA}    [${RED}0${CYA}] Initial setup.${NC}"
-        echo -e "$install_log${CYA}    [${RED}1${CYA}] Nespi4Case setup.${NC}"
-        echo -e "$install_log${CYA}    [${RED}2${CYA}] Docker Init.${NC}"
-        echo -e "$install_log${CYA}    [${RED}3${CYA}] Install/Update .bash_profile files.${NC}"
-        echo -e "$install_log${CYA}    [${RED}4${CYA}] Create share folders.${NC}"
-        echo -e "$install_log${CYA}    [${RED}5${CYA}] Uninstall.${NC}"
-        echo -e "$install_log${CYA}    [${RED}6${CYA}] Exit.${NC}"
+while true; do
+    echo -e "${GRE} ######################################################################################################${NC}"
+    echo -e "$install_log${BYEL} What to you want to setup? ${NC}"
+    echo -e "$install_log${CYA}    [${RED}0${CYA}] Initial setup.${NC}"
+    echo -e "$install_log${CYA}    [${RED}1${CYA}] Nespi4Case setup.${NC}"
+    echo -e "$install_log${CYA}    [${RED}2${CYA}] Docker Init.${NC}"
+    echo -e "$install_log${CYA}    [${RED}3${CYA}] Install/Update .bash_profile files.${NC}"
+    echo -e "$install_log${CYA}    [${RED}4${CYA}] Create share folders.${NC}"
+    echo -e "$install_log${CYA}    [${RED}5${CYA}] Uninstall.${NC}"
+    echo -e "$install_log${CYA}    [${RED}6${CYA}] Exit.${NC}"
 
-        read -p "$(echo -e $install_log${BYEL} Write the number of the option: ${NC})" option
-        case $option in 
-            0 ) initial_setup;;
-            1 ) case_setup;;
-            2 ) docker_init;;
-            3 ) install_bash_profiles;;
-            4 ) share_folder;;
-            5 ) unistall;;
-            6 ) break;;
-            * ) echo -e "$install_log${RED} No valid option. Try again...${NC}";;
-        esac
-        echo -e "${GRE} ######################################################################################################${NC}"
-    done
-fi
+    read -p "$(echo -e $install_log${BYEL} Write the number of the option: ${NC})" option
+    case $option in 
+        0 ) initial_setup;;
+        1 ) case_setup;;
+        2 ) docker_init;;
+        3 ) install_bash_profiles;;
+        4 ) share_folder;;
+        5 ) unistall;;
+        6 ) break;;
+        * ) echo -e "$install_log${RED} No valid option. Try again...${NC}";;
+    esac
+    echo -e "${GRE} ######################################################################################################${NC}"
+done
 echo -e "$install_log${BYEL} Thanks for using ${BYEL}Delirio Pi${BYEL} scripts.${NC}"
 echo -e "${GRE} ######################################################################################################${NC}"
 exit
