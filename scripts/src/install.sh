@@ -70,8 +70,18 @@ function case_setup() {
     done
 }
 
-function docker_setup() {
-    echo -e "$install_log${BYEL} docker_setup${NC}"
+function docker_init() {
+    echo -e "$install_log${BYEL} WIP.${NC}"
+    # if [[ -z "${DOCKER_PATH}" ]]; then
+    #     : "${DOCKER_PATH:? The variable needs to be defined}" 
+    #     echo -e "$install_log${BYEL} Make sure before continue that you import the last Delirio-Pi variables.${NC}"
+    # else
+    #     if [[ -d "${DOCKER_PATH}" ]]; then
+    #         echo -e "$install_log${BYEL} Make sure you first import all the docker files to the Raspberry Pi.${NC}"
+    #     else
+    #         docker-compose up -f ${DOCKER_PATH}/system/webserver
+    #     fi
+    # fi
 }
 
 function unistall() {
@@ -97,13 +107,13 @@ function unistall() {
                 remove_nespi4case_system_files
                 ;;
             3 )  
-                echo "Docker WIP"
+                docker_delete
                 ;;
             4 ) 
                 # .bash_profile
                 uninstall_bash_profiles
                 # docker
-                echo "Docker WIP"
+                docker_delete
                 # Case
                 bash $BASE_PATH_SCRIPTS/case/setup.sh -u
                 remove_nespi4case_system_files
@@ -131,19 +141,21 @@ while true; do
     echo -e "$install_log${BYEL} What to you want to setup? ${NC}"
     echo -e "$install_log${CYA}    [${RED}0${CYA}] Initial setup.${NC}"
     echo -e "$install_log${CYA}    [${RED}1${CYA}] Nespi4Case setup.${NC}"
-    echo -e "$install_log${CYA}    [${RED}2${CYA}] Docker.${NC}"
+    echo -e "$install_log${CYA}    [${RED}2${CYA}] Docker Init.${NC}"
     echo -e "$install_log${CYA}    [${RED}3${CYA}] Install/Update .bash_profile files.${NC}"
-    echo -e "$install_log${CYA}    [${RED}4${CYA}] Uninstall.${NC}"
-    echo -e "$install_log${CYA}    [${RED}5${CYA}] Exit.${NC}"
+    echo -e "$install_log${CYA}    [${RED}4${CYA}] Create share folders.${NC}"
+    echo -e "$install_log${CYA}    [${RED}5${CYA}] Uninstall.${NC}"
+    echo -e "$install_log${CYA}    [${RED}6${CYA}] Exit.${NC}"
 
     read -p "$(echo -e $install_log${BYEL} Write the number of the option: ${NC})" option
     case $option in 
         0 ) initial_setup;;
         1 ) case_setup;;
-        2 ) docker_setup;;
+        2 ) docker_init;;
         3 ) install_bash_profiles;;
-        4 ) unistall;;
-        5 ) break;;
+        4 ) share_folder;;
+        5 ) unistall;;
+        6 ) break;;
         * ) echo -e "$install_log${RED} No valid option. Try again...${NC}";;
     esac
     echo -e "${GRE} ######################################################################################################${NC}"
