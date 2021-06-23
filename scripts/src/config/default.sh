@@ -1,3 +1,5 @@
+# All this variables are printed on printenvpi function
+
 export BASE_PATH_SCRIPTS="/opt/delirio"
 export CONFIG_FILE="$BASE_PATH_SCRIPTS/config/default.conf"
 export CONF_FILE="$BASE_PATH_SCRIPTS/scripts/config/default.conf"
