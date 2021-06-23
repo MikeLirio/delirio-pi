@@ -124,7 +124,7 @@ function docker_copy_files {
             docker_folder
         fi
         echo -e "$utils_log${BYEL} Copying files from Delirio-Pi Github to ${DOCKER_PATH}.${NC}"
-        cp ${GITHUB_DELIRIO}/docker/system ${DOCKER_PATH}
+        cp -r ${GITHUB_DELIRIO}/docker/system ${DOCKER_PATH}
     fi
 }
 
