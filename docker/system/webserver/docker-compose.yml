@@ -16,7 +16,7 @@ services:
       - ./nginx/conf.d:/etc/nginx/conf.d:ro
     environment:
       API_HOST: ${DELIRIO_HOST}
-    restart:
+    restart: 
       always
 
 networks: 

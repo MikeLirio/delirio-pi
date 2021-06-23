@@ -26,7 +26,8 @@ services:
     #   https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
     cap_add:
       - NET_ADMIN
-    restart: unless-stopped
+    restart: 
+      unless-stopped
 
   deluge:
     container_name: delirio_deluge
@@ -45,7 +46,8 @@ services:
       PGID: 1000
       TZ: ${DELIRIO_TIMEZONE}
       DELUGE_LOGLEVEL: error #optional
-    restart: unless-stopped
+    restart: 
+      unless-stopped
 
 networks: 
   proxy:
