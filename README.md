@@ -141,7 +141,7 @@ The main scrips contained are:
 * `./scripts/src/install.sh`: Main bash script to install the system. It provides a user iteration to help on the installation.
 
   > Raspberry Pi - Installation - v0.1
-  > ![Raspberry Pi - Bash Scripts - v0.1](README.assets/Raspberry Pi - Bash Scripts.jpg)
+  > ![RaspberryPi-Bash_Scripts-v0.1](README.assets/RaspberryPi-Bash_Scripts.jpg)
 
 * `./scripts/src/config/default.sh`: Main environments variables used along all the bash scripts of the Delirio Pi system.
 
@@ -216,7 +216,7 @@ We will be using this repository as a base of our environment. All the docker im
 
 The system will be implemented in 4 different docker compose. 
 
-![Raspberry Pi-Arquitecture](README.assets/Raspberry Pi-Arquitecture.png)
+![RaspberryPi-Arquitecture](README.assets/RaspberryPi-Arquitecture.png)
 
 * `delirio-pi\docker\system\apps`: 
   * images on the docker-compose: **[Deluge](https://hub.docker.com/r/linuxserver/deluge), [Pi-Hole](https://hub.docker.com/r/pihole/pihole)**
