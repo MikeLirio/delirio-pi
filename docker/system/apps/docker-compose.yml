@@ -14,7 +14,6 @@ services:
     environment:
       ADMIN_EMAIL: michaelirio@gmail.com
       TZ: ${DELIRIO_TIMEZONE} # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-      WEBPASSWORD: 060ojetecalor
       # WEBPASSWORD: 'set a secure password here or it will be random'
       WEB_PORT: 82
       ServerIP: ${DELIRIO_HOST}
