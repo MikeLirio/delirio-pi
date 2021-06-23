@@ -1,6 +1,8 @@
 version: '3.9'
 
 services:
+  # https://www.linuxuprising.com/2020/07/ubuntu-how-to-free-up-port-53-used-by.html
+  # Good to read if you have issues with the port 53 on Ubuntu.
   pihole:
     container_name: delirio_pihole
     image: pihole/pihole:latest
