@@ -71,7 +71,64 @@ function move_delirio_system_files() {
     cp -r $GITHUB_DELIRIO/scripts/src/config $BASE_PATH_SCRIPTS/
     echo -e "${utils_log}${BYEL} Copying scripts $GITHUB_DELIRIO/scripts/src/install.sh to $BASE_PATH_SCRIPTS ${NC}"
     cp -r $GITHUB_DELIRIO/scripts/src/install.sh $BASE_PATH_SCRIPTS/
+    docker_copy_files
 }
+
+function docker_delete() {
+    if [[ -z "${DOCKER_PATH}" ]]; then
+        : "${DOCKER_PATH:? The variable needs to be defined}" 
+        echo -e "$utils_log${BYEL} Make sure before continue that you import the last Delirio-Pi variables.${NC}"
+    else
+        while true; do
+            read -p "$(echo -e $utils_log${BYEL} The folder ${DOCKER_PATH} will be deleted. Are you sure you want to continue? : Y/N ${NC})" option_erase
+            case $option_erase in 
+                Y | y ) 
+                    rm -r ${DOCKER_PATH}
+                    ;;
+                N | n) break;;
+                * ) echo -e "${utils_log}${RED} No valid option. Try again...${NC}";;
+            esac
+        done
+    fi
+}
+
+function docker_folder() {
+    if [[ -z "${DOCKER_PATH}" ]]; then
+        : "${DOCKER_PATH:? The variable needs to be defined}" 
+        echo -e "$utils_log${BYEL} Make sure before continue that you import the last Delirio-Pi variables.${NC}"
+    else
+        if [[ -d "${DOCKER_PATH}" ]]; then
+            while true; do
+                read -p "$(echo -e $utils_log${BYEL} The folder ${DOCKER_PATH} already exist. Do you want to erase the content? : Y/N ${NC})" option_erase
+                case $option_erase in 
+                    Y | y ) 
+                        rm -r ${DOCKER_PATH}/*
+                        break
+                        ;;
+                    N | n) break;;
+                    * ) echo -e "${utils_log}${RED} No valid option. Try again...${NC}";;
+                esac
+            done
+        else 
+            mkdir -p ${DOCKER_PATH}
+            echo -e "$utils_log${BYEL} Folder ${DOCKER_PATH} created.${NC}"
+        fi
+    fi
+}
+
+function docker_copy_files {
+    if [[ -z "${DOCKER_PATH}" ]]; then
+        : "${DOCKER_PATH:? The variable needs to be defined}" 
+        echo -e "$utils_log${BYEL} Make sure before continue that you import the last Delirio-Pi variables.${NC}"
+    else
+        if [[ -d "${DOCKER_PATH}" ]]; then
+            docker_folder
+        fi
+        echo -e "$utils_log${BYEL} Copying files from Delirio-Pi Github to ${DOCKER_PATH}.${NC}"
+        cp -r ${GITHUB_DELIRIO}/docker/system ${DOCKER_PATH}
+    fi
+}
+
 
 function move_nespi4case_system_files() {
     echo -e "${utils_log}${BYEL} Copying scripts $GITHUB_DELIRIO/scripts/src/case to $BASE_PATH_SCRIPTS ${NC}"
@@ -101,20 +158,20 @@ function unistall_initial_setup() {
 
 function install_bash_profiles() {
     if [[ -z "${GITHUB_DELIRIO}" ]]; then
-        echo -e "$install_log${BYEL} Unable to import the .bash_profile files.${NC}"
-        echo -e "$install_log${BYEL} Make sure that the environment variables are install from the step ${RED}[0] Initial Setup.${NC}"
+        echo -e "$utils_log${BYEL} Unable to import the .bash_profile files.${NC}"
+        echo -e "$utils_log${BYEL} Make sure that the environment variables are install from the step ${RED}[0] Initial Setup.${NC}"
     elif [ -z "$(ls -A /home)" ]; then
-        echo -e "$install_log${BYEL} Unable to import the .bash_profile files.${NC}"
-        echo -e "$install_log${BYEL} The folder /home is empty and doesn not have any user. It could happen if you are running this script on ${CYA}Docker${BYEL}.${NC}"
+        echo -e "$utils_log${BYEL} Unable to import the .bash_profile files.${NC}"
+        echo -e "$utils_log${BYEL} The folder /home is empty and doesn not have any user. It could happen if you are running this script on ${CYA}Docker${BYEL}.${NC}"
     else
         actualFolder=$(pwd)
         cd /home
         for folder in */ ; do
-            echo -e "$install_log${BYEL} Copying the file to the user $folder on /home/$folder ...${NC}"
+            echo -e "$utils_log${BYEL} Copying the file to the user $folder on /home/$folder ...${NC}"
             cp $GITHUB_DELIRIO/scripts/src/profiles/bash_profile_template /home/$folder/.bash_profile
         done
         cd $actualFolder
-        $actualFolder=""
+        actualFolder=""
     fi
 }
 
@@ -122,11 +179,11 @@ function uninstall_bash_profiles() {
     actualFolder=$(pwd)
     cd /home
     for folder in */ ; do
-        echo -e "$install_log${BYEL} Removing the file to the user $folder on /home/$folder ...${NC}"
+        echo -e "$utils_log${BYEL} Removing the file to the user $folder on /home/$folder ...${NC}"
         rm /home/$folder/.bash_profile
     done
     cd $actualFolder
-    $actualFolder=""
+    actualFolder=""
 }
 
 function printenvpi() {
@@ -149,7 +206,14 @@ function printenvpi() {
     echo -e "     ${BLU}GITHUB_DELIRIO_BRANCH          ${RED}| ${BYEL} $GITHUB_DELIRIO_BRANCH ${NC}"
     echo -e "     ${BLU}GITHUB_DELIRIO_URL             ${RED}| ${BYEL} $GITHUB_DELIRIO_URL ${NC}"
     echo -e " ${NC}"
-    echo -e "     ${BLU}DOCKER_VOLUME_NAME_NGINX       ${RED}| ${BYEL} $DOCKER_VOLUME_NAME_NGINX ${NC}"
+    echo -e "     ${BLU}DELIRIO_HOST                   ${RED}| ${BYEL} $DELIRIO_HOST ${NC}"
+    echo -e "     ${BLU}DELIRIO_TIMEZONE               ${RED}| ${BYEL} $DELIRIO_TIMEZONE ${NC}"
+    echo -e " ${NC}"
+    echo -e "     ${BLU}DOCKER_PATH                    ${RED}| ${BYEL} $DOCKER_PATH ${NC}"
+    echo -e "     ${BLU}DELIRIO_DELUGE_DOWNLOADS       ${RED}| ${BYEL} $DELIRIO_DELUGE_DOWNLOADS ${NC}"
+    echo -e "     ${BLU}VN_DELUGE                      ${RED}| ${BYEL} $VN_DELUGE ${NC}"
+    echo -e "     ${BLU}VN_PIHOLE                      ${RED}| ${BYEL} $VN_PIHOLE ${NC}"
+    echo -e "     ${BLU}VN_PIHOLE_DNSMASQD             ${RED}| ${BYEL} $VN_PIHOLE_DNSMASQD ${NC}"
     echo -e " ${NC}"
     echo -e "${GRE} ######################################################################################################${NC}"
 }

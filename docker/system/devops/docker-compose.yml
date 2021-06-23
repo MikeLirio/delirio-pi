@@ -13,8 +13,8 @@ services:
       - './nexus/data:/nexus-data'
     environment:
       - NEXUS_CONTEXT=nexus
-    restart:
-      always
+    restart: 
+      unless-stopped
 
   # https://docs.sonarqube.org/latest/setup/get-started-2-minutes/
   sonar:
@@ -31,8 +31,8 @@ services:
     #   - './sonar/extensions:/opt/sonarqube/extensions'
     environment:
       - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
-    restart:
-      always
+    restart: 
+      unless-stopped
 
 networks: 
   proxy:

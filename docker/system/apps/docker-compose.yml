@@ -1,6 +1,8 @@
 version: '3.9'
 
 services:
+  # https://www.linuxuprising.com/2020/07/ubuntu-how-to-free-up-port-53-used-by.html
+  # Good to read if you have issues with the port 53 on Ubuntu.
   pihole:
     container_name: delirio_pihole
     image: pihole/pihole:latest
@@ -14,19 +16,19 @@ services:
     environment:
       ADMIN_EMAIL: michaelirio@gmail.com
       TZ: ${DELIRIO_TIMEZONE} # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-      WEBPASSWORD: 060ojetecalor
       # WEBPASSWORD: 'set a secure password here or it will be random'
       WEB_PORT: 82
       ServerIP: ${DELIRIO_HOST}
     # Volumes store your data between container upgrades
     volumes:
-      - './pi-hole/etc-pihole/:/etc/pihole/'
-      - './pi-hole/etc-dnsmasq.d/:/etc/dnsmasq.d/'
+      - pihole_config:/etc/pihole
+      - pihole_dnsmasqd:/etc/dnsmasq.d
     # Recommended but not required (DHCP needs NET_ADMIN)
     #   https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
     cap_add:
       - NET_ADMIN
-    restart: unless-stopped
+    restart: 
+      unless-stopped
 
   deluge:
     container_name: delirio_deluge
@@ -38,14 +40,30 @@ services:
       - "6881:6881/tcp"
       - "6881:6881/udp"
     volumes:
-      - './deluge/config:/config'
-      - './deluge/downloads:/downloads'
+      - deluge_config:/config
+      - deluge_downloads:/downloads
     environment:
-      PUID: 1000
-      PGID: 1000
+      PUID: 1005 # deluge
+      PGID: 998 # docker
       TZ: ${DELIRIO_TIMEZONE}
       DELUGE_LOGLEVEL: error #optional
-    restart: unless-stopped
+    restart: 
+      unless-stopped
+
+volumes:
+  deluge_downloads:
+    name: ${VN_DELUGE_DOWNLOADS}
+    driver: local
+    driver_opts: 
+      o: bind
+      type: none
+      device: ${DELIRIO_DELUGE_DOWNLOADS}
+  deluge_config:
+    name: ${VN_DELUGE}
+  pihole_config:
+    name: ${VN_PIHOLE}
+  pihole_dnsmasqd:
+    name: ${VN_PIHOLE_DNSMASQD}
 
 networks: 
   proxy:
