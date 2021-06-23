@@ -171,7 +171,7 @@ function install_bash_profiles() {
             cp $GITHUB_DELIRIO/scripts/src/profiles/bash_profile_template /home/$folder/.bash_profile
         done
         cd $actualFolder
-        $actualFolder=""
+        actualFolder=""
     fi
 }
 
@@ -183,7 +183,7 @@ function uninstall_bash_profiles() {
         rm /home/$folder/.bash_profile
     done
     cd $actualFolder
-    $actualFolder=""
+    actualFolder=""
 }
 
 function printenvpi() {
