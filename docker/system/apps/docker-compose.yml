@@ -20,8 +20,8 @@ services:
       ServerIP: ${DELIRIO_HOST}
     # Volumes store your data between container upgrades
     volumes:
-      - './pi-hole/etc-pihole/:/etc/pihole/'
-      - './pi-hole/etc-dnsmasq.d/:/etc/dnsmasq.d/'
+      - ${VN_PIHOLE}:/etc/pihole
+      - ${VN_PIHOLE_DNSMASQD}:/etc/dnsmasq.d
     # Recommended but not required (DHCP needs NET_ADMIN)
     #   https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
     cap_add:
@@ -39,11 +39,11 @@ services:
       - "6881:6881/tcp"
       - "6881:6881/udp"
     volumes:
-      - './deluge/config:/config'
-      - './deluge/downloads:/downloads'
+      - ${VN_DELUGE}:/config
+      - '${DELIRIO_DELUGE_DOWNLOADS}:/downloads'
     environment:
-      PUID: 1000
-      PGID: 1000
+      PUID: 1005 # deluge
+      PGID: 998 # docker
       TZ: ${DELIRIO_TIMEZONE}
       DELUGE_LOGLEVEL: error #optional
     restart: 

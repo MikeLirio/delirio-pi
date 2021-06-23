@@ -9,3 +9,15 @@ export GITHUB_DELIRIO_URL="https://github.com/MikeLirio/delirio-pi.git"
 
 export DELIRIO_HOST=192.168.1.94
 export DELIRIO_TIMEZONE="Europe/London"
+
+# DOCKER
+
+export DOCKER_PATH="/opt/delirio/docker"
+
+export DELIRIO_DELUGE_DOWNLOADS="/sharefolder/downloads"
+
+# VOLUME NAMES
+export VN_DELUGE="DELIRIO_DELUGE_CONF"
+
+export VN_PIHOLE="DELIRIO_PIHOLE"
+export VN_PIHOLE_DNSMASQD="DELIRIO_PIHOLE_DNSMASQD"
