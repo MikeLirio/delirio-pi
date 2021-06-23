@@ -221,6 +221,7 @@ The system will be implemented in 4 different docker compose.
 * `delirio-pi\docker\system\apps`: 
   * images on the docker-compose: **[Deluge](https://hub.docker.com/r/linuxserver/deluge), [Pi-Hole](https://hub.docker.com/r/pihole/pihole)**
   * It will contain all custom images build by us.
+  * **Ubuntu** by default, contains a service that works on **port 53** that avoid to Pi-Hole to wake up. To change that port I followed the [this link](https://www.linuxuprising.com/2020/07/ubuntu-how-to-free-up-port-53-used-by.html).
 * `delirio-pi\docker\system\devops`:
   * images on the docker-compose: **[Nexus3](https://hub.docker.com/r/sonatype/nexus3), [Sonarqube](https://hub.docker.com/_/sonarqube)** 
   * The problem founded is those images are not build on arch arm64, used by Raspberry Pi 4. As a future project, **I will have to build them manually**.
@@ -229,44 +230,6 @@ The system will be implemented in 4 different docker compose.
   * The problem founded is those images are not build on arch arm64, used by Raspberry Pi 4. As a future project, **I will have to build them manually**.
 * `delirio-pi\docker\system\webserver`:
   * images on the docker-compose: **[Nginx](https://hub.docker.com/_/nginx)** 
-
-The three of development for docker images is:
-
-```
-Repository - root path
-|
-+---- scripts
-|
-+---- docker
-	|
-	+---- develop
-    |    |
-    |    +---- backend
-    |    +---- frontend
-    |    ----- docker-compose.yml
-    +---- system
-    |    |
-    |    +---- apps
-    |    |		|
-    |    |		+---- deluge
-	|    |    	+---- pi-hole
-	|    |    	----- docker-compose.yml
-    |    +---- devops
-    |	 |		+---- nexus
-    |    |			----- Dockerfile | for image for arm64 arch
-	|    |    	+---- sonar
-	|    |    		----- Dockerfile | for image for arm64 arch
-	|    |    	----- docker-compose.yml
-    |    +---- jenkins
-    |    |		----- Dockerfile | for image for arm64 arch
-    |    |		----- docker-compose.yml
-    |    +---- webserver
-    |	 |		+---- nginx
-    |	 |		|		+---- conf
-    |	 |		|		|		----- delirio.conf
-    |	 |		|		+---- pages
-    |	 |		|		|		----- html files
-```
 
 #### Images
 
@@ -318,16 +281,13 @@ The backend is still on pending what to do.
 
 Deluge
 
-* Created on docker:
-  * DELIRIO_DELUGE_CONF 
-* No need of folders to be mount.
+* DELIRIO_DELUGE_CONF 
+* DELIRIO_DELUGE_DOWNLOADS
 
 Pi-Hole
 
-* Created on docker:
-  * DELIRIO_PIHOLE
-  * DELIRIO_PIHOLE_DNSMASQD
-* No need of folders to be mount.
+* DELIRIO_PIHOLE
+* DELIRIO_PIHOLE_DNSMASQD
 
 ##### DevOps
 
@@ -347,7 +307,6 @@ Sonarqube
 
 Nginx
 
-* None to be created inside Docker.
 * Folders linked on the docker-compose:
   * delirio-pi\docker\system\webserver\nginx\pages **linked to** /usr/share/nginx/html
   *  delirio-pi\docker\system\webserver\nginx\conf-d linked to /etc/nginx/conf.d
